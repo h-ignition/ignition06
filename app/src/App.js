@@ -33,7 +33,7 @@ const AppWithProvider = () => (
     <WalletProvider wallets={wallets} autoConnect>
       <WalletModalProvider>
         <BrowserRouter>
-          <Route path="/" component={Home} />
+          <Route path="/home" component={Home} />
           <Route path="/marketplace" component={Marketplace} />
         </BrowserRouter>
       </WalletModalProvider>
