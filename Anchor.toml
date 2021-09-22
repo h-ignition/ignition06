@@ -1,0 +1,12 @@
+[programs.localnet]
+ignition06 = "8WhbWR7MQgjtPExCFFoE4QF3321RRkE7tiFy6c9dUDHM"
+
+[registry]
+url = "https://anchor.projectserum.com"
+
+[provider]
+cluster = "localnet"
+wallet = "/home/nuhutuh25/.config/solana/id.json"
+
+[scripts]
+test = "mocha -t 1000000 tests/"
