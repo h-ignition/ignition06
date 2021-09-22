@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Connection, PublicKey } from "@solana/web3.js";
 import { Program, Provider, web3 } from "@project-serum/anchor";
 import idl from "./idl.json";
-
+import Album from "./components/Album";
 import { getPhantomWallet } from "@solana/wallet-adapter-wallets";
 import {
   useWallet,
@@ -129,7 +129,10 @@ const AppWithProvider = () => (
   <ConnectionProvider endpoint="http://127.0.0.1:8899">
     <WalletProvider wallets={wallets} autoConnect>
       <WalletModalProvider>
-        <App />
+        <div>
+          <Album />
+          <App />
+        </div>
       </WalletModalProvider>
     </WalletProvider>
   </ConnectionProvider>
