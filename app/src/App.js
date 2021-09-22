@@ -18,6 +18,7 @@ import {
   WalletModalProvider,
   WalletMultiButton,
 } from "@solana/wallet-adapter-react-ui";
+import Registry from "./registry";
 
 const wallets = [getPhantomWallet()];
 
@@ -35,6 +36,7 @@ const AppWithProvider = () => (
         <BrowserRouter>
           <Route path="/home" component={Home} />
           <Route path="/marketplace" component={Marketplace} />
+          <Route path="/registry" component={Registry}></Route>
         </BrowserRouter>
       </WalletModalProvider>
     </WalletProvider>
