@@ -1,26 +1,11 @@
 import React from "react";
 import "./App.css";
-import { BrowserRouter, Route } from "react-router-dom";
-
-import Home from "./home";
-import Marketplace from "./marketplace";
-
 import { useState } from "react";
 import { Connection, PublicKey } from "@solana/web3.js";
 import { Program, Provider, web3 } from "@project-serum/anchor";
 import idl from "./idl.json";
-import { getPhantomWallet } from "@solana/wallet-adapter-wallets";
-import {
-  useWallet,
-  WalletProvider,
-  ConnectionProvider,
-} from "@solana/wallet-adapter-react";
-import {
-  WalletModalProvider,
-  WalletMultiButton,
-} from "@solana/wallet-adapter-react-ui";
-
-const wallets = [getPhantomWallet()];
+import { useWallet } from "@solana/wallet-adapter-react";
+import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 
 const { SystemProgram, Keypair } = web3;
 const baseAccount = Keypair.generate();
