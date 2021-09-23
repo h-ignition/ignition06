@@ -1,6 +1,10 @@
+import Table from "./components/Table";
+import "./App.css";
 export default function Registry2() {
-  return;
-  <div>
-    Welcome to the registry<table></table>
-  </div>;
+  return (
+    <div>
+      Welcome to the registry
+      <Table />
+    </div>
+  );
 }
