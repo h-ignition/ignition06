@@ -4,7 +4,7 @@ import Home from "./home";
 import Login from "./login";
 import Register from "./register";
 import Marketplace from "./marketplace";
-
+import Registry2 from "./registry2";
 import { getPhantomWallet } from "@solana/wallet-adapter-wallets";
 import {
   WalletProvider,
@@ -22,9 +22,10 @@ const AppWithProvider = () => (
         <BrowserRouter>
           <Route path="/home" component={Home} />
           <Route path="/marketplace" component={Marketplace} />
-          <Route path="/registry" component={Registry}></Route>
+          <Route path="/registry" component={Registry} />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
+          <Route path="/registry2" component={Registry2} />
         </BrowserRouter>
       </WalletModalProvider>
     </WalletProvider>
