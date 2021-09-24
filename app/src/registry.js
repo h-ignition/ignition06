@@ -21,8 +21,6 @@ export default function Registry() {
   const wallet = useWallet();
 
   async function getProvider() {
-    /* create the provider and return it to the caller */
-    /* network set to local network for now */
     const network = "http://127.0.0.1:8899";
     const connection = new Connection(network, opts.preflightCommitment);
 
@@ -32,10 +30,9 @@ export default function Registry() {
 
   async function initialize() {
     const provider = await getProvider();
-    /* create the program interface combining the idl, program ID, and provider */
+
     const program = new Program(idl, programID, provider);
     try {
-      /* interact with the program via rpc */
       await program.rpc.initialize("Hello World", {
         accounts: {
           baseAccount: baseAccount.publicKey,
