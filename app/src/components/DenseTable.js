@@ -13,9 +13,9 @@ import idl from "../idl.json";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 
-function createData(name, calories, fat, carbs, protein) {
+/*function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
-}
+}*/
 
 const { SystemProgram, Keypair } = web3;
 const baseAccount = Keypair.generate();
@@ -29,42 +29,13 @@ export default function DenseTable() {
   const [dataList, setDataList] = useState(["testdate"]);
   const [input, setInput] = useState("");
   const wallet = useWallet();
-  async function getProvider() {
-    /* create the provider and return it to the caller */
-    /* network set to local network for now */
+  const getProvider = React.useCallback(async () => {
     const network = "http://127.0.0.1:8899";
     const connection = new Connection(network, opts.preflightCommitment);
-
     const provider = new Provider(connection, wallet, opts.preflightCommitment);
     return provider;
-  }
-  async function initialize() {
-    const provider = await getProvider();
+  }, [wallet]);
 
-    const program = new Program(idl, programID, provider);
-    try {
-      await program.rpc.initialize("Hello World", {
-        accounts: {
-          baseAccount: baseAccount.publicKey,
-          user: provider.wallet.publicKey,
-          systemProgram: SystemProgram.programId,
-        },
-        signers: [baseAccount],
-      });
-
-      const account = await program.account.baseAccount.fetch(
-        baseAccount.publicKey
-      );
-      console.log("account: ", account);
-      setValue(account.data.toString());
-      setDataList(account.dataList);
-    } catch (err) {
-      console.log("Transaction error: ", err);
-    }
-  }
-  React.useEffect(() => {
-    initialize();
-  }, []);
   async function update() {
     if (!input) return;
     const provider = await getProvider();
@@ -75,6 +46,31 @@ export default function DenseTable() {
       },
     });
   }
+  React.useEffect(() => {
+    async function initialize() {
+      const provider = await getProvider();
+      const program = new Program(idl, programID, provider);
+      try {
+        await program.rpc.initialize("Hello World", {
+          accounts: {
+            baseAccount: baseAccount.publicKey,
+            user: provider.wallet.publicKey,
+            systemProgram: SystemProgram.programId,
+          },
+          signers: [baseAccount],
+        });
+        const account = await program.account.baseAccount.fetch(
+          baseAccount.publicKey
+        );
+        console.log("account: ", account);
+        setValue(account.data.toString());
+        setDataList(account.dataList);
+      } catch (err) {
+        console.log("Transaction error: ", err);
+      }
+    }
+    initialize();
+  }, [getProvider]);
   if (!wallet.connected) {
     return (
       <div
