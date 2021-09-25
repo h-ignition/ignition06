@@ -29,6 +29,12 @@ export default function DenseTable() {
   const [dataList, setDataList] = useState(["testdate"]);
   const [input, setInput] = useState("");
   const wallet = useWallet();
+  const getProvideri = React.useCallback(async () => {
+    const network = "http://127.0.0.1:8899";
+    const connection = new Connection(network, opts.preflightCommitment);
+    const provider = new Provider(connection, wallet, opts.preflightCommitment);
+    return provider;
+  }, [wallet]);
   const getProvider = React.useCallback(async () => {
     const network = "http://127.0.0.1:8899";
     const connection = new Connection(network, opts.preflightCommitment);
@@ -48,7 +54,7 @@ export default function DenseTable() {
   }
   React.useEffect(() => {
     async function initialize() {
-      const provider = await getProvider();
+      const provider = await getProvideri();
       const program = new Program(idl, programID, provider);
       try {
         await program.rpc.initialize("Hello World", {
@@ -70,7 +76,7 @@ export default function DenseTable() {
       }
     }
     initialize();
-  }, [getProvider]);
+  }, [getProvideri]);
   if (!wallet.connected) {
     return (
       <div
