@@ -4,7 +4,7 @@ import "./App.css";
 export default function Registry3() {
   return (
     <div>
-      Welcome to the registry33333333333333333
+      Welcome to the registry
       <DenseTableV1 />
     </div>
   );
