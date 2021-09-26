@@ -127,18 +127,25 @@ export default function DenseTable() {
             <div>
               <h2>Current value: {value}</h2>
               <input
-                placeholder="Add new data"
+                placeholder="name"
                 onChange={(e) => setInput(e.target.value)}
                 value={input}
               />
-              <button onClick={update}>Add data</button>
+              <input
+                placeholder="number"
+                onChange={(e) => setInput(e.target.value)}
+                value={input}
+              />
+              <input
+                placeholder="amount"
+                onChange={(e) => setInput(e.target.value)}
+                value={input}
+              />
+              <button onClick={update}>Create New Project</button>
             </div>
           ) : (
-            <h3>Please Inialize.</h3>
+            <h3>Click here to Initialize</h3>
           )}
-          {dataList.map((d, i) => (
-            <h4 key={i}>{d}</h4>
-          ))}
         </div>
       </div>
     );
