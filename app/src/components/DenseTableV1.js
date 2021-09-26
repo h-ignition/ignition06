@@ -9,7 +9,6 @@ import Paper from "@mui/material/Paper";
 import { useState } from "react";
 import { Connection, PublicKey } from "@solana/web3.js";
 import { Program, Provider, web3 } from "@project-serum/anchor";
-import idl2 from "../idl2.json";
 import idl from "../idl.json";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
@@ -25,23 +24,18 @@ const opts = {
 };
 const programID = new PublicKey(idl.metadata.address);
 
-export default function DenseTableV1() {
+export default function DenseTable() {
   const [value, setValue] = useState("");
   const [dataList, setDataList] = useState(["testdate"]);
   const [input, setInput] = useState("");
   const wallet = useWallet();
-  const getInitProvider = React.useCallback(async () => {
+
+  async function getProvider() {
     const network = "http://127.0.0.1:8899";
     const connection = new Connection(network, opts.preflightCommitment);
     const provider = new Provider(connection, wallet, opts.preflightCommitment);
     return provider;
-  }, [wallet]);
-  const getProvider = React.useCallback(async () => {
-    const network = "http://127.0.0.1:8899";
-    const connection = new Connection(network, opts.preflightCommitment);
-    const provider = new Provider(connection, wallet, opts.preflightCommitment);
-    return provider;
-  }, [wallet]);
+  }
 
   async function update() {
     if (!input) return;
@@ -60,31 +54,30 @@ export default function DenseTableV1() {
     setDataList(account.dataList);
     setInput("");
   }
-  React.useEffect(() => {
-    async function initialize() {
-      const provider = await getInitProvider();
-      const program = new Program(idl, programID, provider);
-      try {
-        await program.rpc.initialize("Hello World", {
-          accounts: {
-            baseAccount: baseAccount.publicKey,
-            user: provider.wallet.publicKey,
-            systemProgram: SystemProgram.programId,
-          },
-          signers: [baseAccount],
-        });
-        const account = await program.account.baseAccount.fetch(
-          baseAccount.publicKey
-        );
-        console.log("account: ", account);
-        setValue(account.data.toString());
-        setDataList(account.dataList);
-      } catch (err) {
-        console.log("Transaction error: ", err);
-      }
+
+  async function initialize() {
+    const provider = await getProvider();
+    const program = new Program(idl, programID, provider);
+    try {
+      await program.rpc.initialize("Hello World", {
+        accounts: {
+          baseAccount: baseAccount.publicKey,
+          user: provider.wallet.publicKey,
+          systemProgram: SystemProgram.programId,
+        },
+        signers: [baseAccount],
+      });
+      const account = await program.account.baseAccount.fetch(
+        baseAccount.publicKey
+      );
+      console.log("account: ", account);
+      setValue(account.data.toString());
+      setDataList(account.dataList);
+    } catch (err) {
+      console.log("Transaction error: ", err);
     }
-    initialize();
-  }, [getInitProvider]);
+  }
+
   if (!wallet.connected) {
     return (
       <div
@@ -128,13 +121,24 @@ export default function DenseTableV1() {
           </Table>
         </TableContainer>
         <div>
-          <h2>Current value: {value}</h2>
-          <input
-            placeholder="Add new data"
-            onChange={(e) => setInput(e.target.value)}
-            value={input}
-          />
-          <button onClick={update}>Create New Project</button>
+          {!value && <button onClick={initialize}>Initialize</button>}
+
+          {value ? (
+            <div>
+              <h2>Current value: {value}</h2>
+              <input
+                placeholder="Add new data"
+                onChange={(e) => setInput(e.target.value)}
+                value={input}
+              />
+              <button onClick={update}>Add data</button>
+            </div>
+          ) : (
+            <h3>Please Inialize.</h3>
+          )}
+          {dataList.map((d, i) => (
+            <h4 key={i}>{d}</h4>
+          ))}
         </div>
       </div>
     );
