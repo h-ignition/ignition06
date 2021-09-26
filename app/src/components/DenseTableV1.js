@@ -26,7 +26,13 @@ const programID = new PublicKey(idl.metadata.address);
 
 export default function DenseTable() {
   const [value, setValue] = useState("");
-  const [dataList, setDataList] = useState(["testdate"]);
+  const [projectList, setProjectList] = useState([
+    {
+      name: "code",
+      number: 23,
+      price: 45555,
+    },
+  ]);
   const [input, setInput] = useState("");
   const wallet = useWallet();
 
@@ -51,7 +57,7 @@ export default function DenseTable() {
     );
     console.log("account: ", account);
     setValue(account.data.toString());
-    setDataList(account.dataList);
+    setProjectList(account.projectList);
     setInput("");
   }
 
@@ -72,7 +78,7 @@ export default function DenseTable() {
       );
       console.log("account: ", account);
       setValue(account.data.toString());
-      setDataList(account.dataList);
+      setProjectList(account.projectList);
     } catch (err) {
       console.log("Transaction error: ", err);
     }
@@ -101,20 +107,20 @@ export default function DenseTable() {
                 <TableCell align="right">Project Name</TableCell>
                 <TableCell align="right">CO2e Available (T)</TableCell>
                 <TableCell align="right">CO2e Sold (T)</TableCell>
-                <TableCell align="right">Protein&nbsp;(g)</TableCell>
+                <TableCell align="right">Price(g)</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {dataList.map((row) => (
+              {projectList.map((row) => (
                 <TableRow
                   key={row}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    {row}
+                    {row.name}
                   </TableCell>
-                  <TableCell align="right">{row}</TableCell>
-                  <TableCell align="right">{row}</TableCell>
+                  <TableCell align="right">{row.number}</TableCell>
+                  <TableCell align="right">{row.price}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
