@@ -8,14 +8,10 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useState } from "react";
 import { Connection, PublicKey } from "@solana/web3.js";
-import { Program, Provider, web3 } from "@project-serum/anchor";
+import { BN, Program, Provider, web3 } from "@project-serum/anchor";
 import idl2 from "../idl2.json";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
-
-/*function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}*/
 
 const { SystemProgram, Keypair } = web3;
 const baseAccount = Keypair.generate();
@@ -25,6 +21,9 @@ const opts = {
 const programID = new PublicKey(idl2.metadata.address);
 
 export default function DenseTable() {
+  const [name, setName] = useState("");
+  const [number, setNumber] = useState(null);
+  const [price, setPrice] = useState(null);
   const [value, setValue] = useState("");
   const [projectList, setProjectList] = useState([
     {
@@ -38,7 +37,7 @@ export default function DenseTable() {
       price: 45555,
     },
   ]);
-  const [input, setInput] = useState("");
+
   const wallet = useWallet();
 
   async function getProvider() {
@@ -48,45 +47,20 @@ export default function DenseTable() {
     return provider;
   }
 
-  async function update() {
-    if (!input) return;
+  async function update(name, number, price) {
+    if (!name) return;
     const provider = await getProvider();
     const program = new Program(idl2, programID, provider);
-    await program.rpc.update(input, {
-      accounts: {
-        baseAccount: baseAccount.publicKey,
-      },
-    });
-    const account = await program.account.baseAccount.fetch(
-      baseAccount.publicKey
-    );
-    console.log("account: ", account);
-    setValue(account.data.toString());
-    setProjectList(account.projectList);
-    setInput("");
-  }
 
-  async function initialize() {
-    const provider = await getProvider();
-    const program = new Program(idl2, programID, provider);
-    try {
-      await program.rpc.initialize("Hello World", {
-        accounts: {
-          baseAccount: baseAccount.publicKey,
-          user: provider.wallet.publicKey,
-          systemProgram: SystemProgram.programId,
-        },
-        signers: [baseAccount],
-      });
-      const account = await program.account.baseAccount.fetch(
-        baseAccount.publicKey
-      );
-      console.log("account: ", account);
-      setValue(account.data.toString());
-      setProjectList([projectList, account.projectList]);
-    } catch (err) {
-      console.log("Transaction error: ", err);
-    }
+    const projectAccount = web3.Keypair.generate();
+    const tx = await program.rpc.create(new BN(number), new BN(price), name, {
+      accounts: {
+        project: projectAccount.publicKey,
+        seller: provider.wallet.publicKey,
+        systemProgram: web3.SystemProgram.programId,
+      },
+      signers: [projectAccount, provider.wallet.publicKey],
+    });
   }
 
   if (!wallet.connected) {
@@ -132,27 +106,35 @@ export default function DenseTable() {
           </Table>
         </TableContainer>
         <div>
-          {!value && <button onClick={initialize}>Initialize</button>}
+          {!value && (
+            <button
+              onClick={() => {
+                setValue("inted");
+              }}
+            >
+              Initialize
+            </button>
+          )}
 
           {value ? (
             <div>
               <h2>Current value: {value}</h2>
               <input
                 placeholder="name"
-                onChange={(e) => setInput(e.target.value)}
-                value={input}
+                onChange={(e) => setName(e.target.value)}
+                value={name}
               />
               <input
                 placeholder="number"
-                onChange={(e) => setInput(e.target.value)}
-                value={input}
+                onChange={(e) => setNumber(e.target.value)}
               />
               <input
                 placeholder="amount"
-                onChange={(e) => setInput(e.target.value)}
-                value={input}
+                onChange={(e) => setPrice(e.target.value)}
               />
-              <button onClick={update}>Create New Project</button>
+              <button onClick={update(name, number, price)}>
+                Create New Project
+              </button>
             </div>
           ) : (
             <h3>Click here to Initialize</h3>
