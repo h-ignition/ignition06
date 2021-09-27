@@ -21,24 +21,23 @@ const opts = {
 const programID = new PublicKey(idl2.metadata.address);
 
 export default function DenseTable() {
+  const wallet = useWallet();
   const [name, setName] = useState("");
-  const [number, setNumber] = useState(null);
-  const [price, setPrice] = useState(null);
+  const [number, setNumber] = useState(0);
+  const [price, setPrice] = useState(0);
   const [value, setValue] = useState("");
   const [projectList, setProjectList] = useState([
     {
-      name: "code",
+      name: "p1",
       number: 23,
       price: 45555,
     },
     {
-      name: "code@",
+      name: "p2",
       number: 23,
       price: 45555,
     },
   ]);
-
-  const wallet = useWallet();
 
   async function getProvider() {
     const network = "http://127.0.0.1:8899";
@@ -47,6 +46,7 @@ export default function DenseTable() {
     return provider;
   }
 
+  //that's the create project function basically, it calls the rust contract but does not yet add the value to the table
   async function update(name, number, price) {
     if (!name) return;
     const provider = await getProvider();
@@ -109,7 +109,7 @@ export default function DenseTable() {
           {!value && (
             <button
               onClick={() => {
-                setValue("inted");
+                setValue("connected");
               }}
             >
               Initialize
