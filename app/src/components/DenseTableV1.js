@@ -9,7 +9,7 @@ import Paper from "@mui/material/Paper";
 import { useState } from "react";
 import { Connection, PublicKey } from "@solana/web3.js";
 import { Program, Provider, web3 } from "@project-serum/anchor";
-import idl from "../idl.json";
+import idl2 from "../idl2.json";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 
@@ -22,13 +22,18 @@ const baseAccount = Keypair.generate();
 const opts = {
   preflightCommitment: "processed",
 };
-const programID = new PublicKey(idl.metadata.address);
+const programID = new PublicKey(idl2.metadata.address);
 
 export default function DenseTable() {
   const [value, setValue] = useState("");
   const [projectList, setProjectList] = useState([
     {
       name: "code",
+      number: 23,
+      price: 45555,
+    },
+    {
+      name: "code@",
       number: 23,
       price: 45555,
     },
@@ -46,7 +51,7 @@ export default function DenseTable() {
   async function update() {
     if (!input) return;
     const provider = await getProvider();
-    const program = new Program(idl, programID, provider);
+    const program = new Program(idl2, programID, provider);
     await program.rpc.update(input, {
       accounts: {
         baseAccount: baseAccount.publicKey,
@@ -63,7 +68,7 @@ export default function DenseTable() {
 
   async function initialize() {
     const provider = await getProvider();
-    const program = new Program(idl, programID, provider);
+    const program = new Program(idl2, programID, provider);
     try {
       await program.rpc.initialize("Hello World", {
         accounts: {
@@ -78,7 +83,7 @@ export default function DenseTable() {
       );
       console.log("account: ", account);
       setValue(account.data.toString());
-      setProjectList(account.projectList);
+      setProjectList([projectList, account.projectList]);
     } catch (err) {
       console.log("Transaction error: ", err);
     }
