@@ -20,7 +20,7 @@ const opts = {
 };
 const programID = new PublicKey(idl2.metadata.address);
 
-export default function DenseTable() {
+export default function DenseTable(props) {
   const wallet = useWallet();
   const [name, setName] = useState("");
   const [number, setNumber] = useState(0);
@@ -130,7 +130,7 @@ export default function DenseTable() {
                 placeholder="amount"
                 onChange={(e) => setPrice(e.target.value)}
               />
-              <button onClick={() => update(name, number, price)}>
+              <button onClick={() => update(price, number, name)}>
                 Create New Project
               </button>
             </div>
