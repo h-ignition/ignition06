@@ -130,7 +130,7 @@ export default function DenseTable(props) {
                 placeholder="amount"
                 onChange={(e) => setPrice(e.target.value)}
               />
-              <button onClick={() => update(price, number, name)}>
+              <button onClick={() => update(name, number, price)}>
                 Create New Project
               </button>
             </div>
