@@ -35,7 +35,7 @@ export default function DenseTable() {
     {
       name: "p2",
       number: 23,
-      price: 45555,
+      price: 4555,
     },
   ]);
 
@@ -51,7 +51,6 @@ export default function DenseTable() {
     if (!name) return;
     const provider = await getProvider();
     const program = new Program(idl2, programID, provider);
-
     const projectAccount = web3.Keypair.generate();
     const tx = await program.rpc.create(new BN(number), new BN(price), name, {
       accounts: {
@@ -115,10 +114,9 @@ export default function DenseTable() {
               Initialize
             </button>
           )}
-
           {value ? (
             <div>
-              <h2>Current value: {value}</h2>
+              <h2>{value}</h2>
               <input
                 placeholder="name"
                 onChange={(e) => setName(e.target.value)}
@@ -132,7 +130,7 @@ export default function DenseTable() {
                 placeholder="amount"
                 onChange={(e) => setPrice(e.target.value)}
               />
-              <button onClick={update(name, number, price)}>
+              <button onClick={() => update(name, number, price)}>
                 Create New Project
               </button>
             </div>
