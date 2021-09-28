@@ -58,6 +58,8 @@ export default function DenseTable(props) {
         seller: provider.wallet.publicKey,
         systemProgram: web3.SystemProgram.programId,
       },
+
+      //one of the signers is undefined
       signers: [projectAccount, provider.wallet.publicKey],
     });
   }
