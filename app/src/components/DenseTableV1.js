@@ -59,6 +59,7 @@ export default function DenseTable(props) {
     const tx = await program.rpc.create(new BN(number), new BN(price), name, {
       accounts: {
         project: projectAccount.publicKey,
+        //current error
         seller: provider.wallet.publicKey,
         systemProgram: web3.SystemProgram.programId,
       },
