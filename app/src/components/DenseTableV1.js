@@ -26,6 +26,15 @@ export default function DenseTable(props) {
   const [number, setNumber] = useState(0);
   const [price, setPrice] = useState(0);
   const [value, setValue] = useState("");
+  async function getProvider() {
+    const network = "http://127.0.0.1:8899";
+    const connection = new Connection(network, opts.preflightCommitment);
+    const provider = new Provider(connection, wallet, opts.preflightCommitment);
+    return provider;
+  }
+  const provider = getProvider();
+  const program = new Program(idl2, programID, provider);
+
   const [projectList, setProjectList] = useState([
     {
       name: "p1",
@@ -39,18 +48,13 @@ export default function DenseTable(props) {
     },
   ]);
 
-  async function getProvider() {
-    const network = "http://127.0.0.1:8899";
-    const connection = new Connection(network, opts.preflightCommitment);
-    const provider = new Provider(connection, wallet, opts.preflightCommitment);
-    return provider;
+  async function getAllProjects() {
+    return await program.account.project.all();
   }
 
   //that's the create project function basically, it calls the rust contract but does not yet add the value to the table
   async function update(name, number, price) {
     if (!name) return;
-    const provider = await getProvider();
-    const program = new Program(idl2, programID, provider);
     const projectAccount = web3.Keypair.generate();
     const tx = await program.rpc.create(new BN(number), new BN(price), name, {
       accounts: {
@@ -59,7 +63,6 @@ export default function DenseTable(props) {
         systemProgram: web3.SystemProgram.programId,
       },
 
-      //one of the signers is undefined
       signers: [projectAccount],
     });
   }
