@@ -32,8 +32,6 @@ export default function DenseTable(props) {
     const provider = new Provider(connection, wallet, opts.preflightCommitment);
     return provider;
   }
-  const provider = getProvider();
-  const program = new Program(idl2, programID, provider);
 
   const [projectList, setProjectList] = useState([
     {
@@ -49,17 +47,21 @@ export default function DenseTable(props) {
   ]);
 
   async function getAllProjects() {
+    const provider = await getProvider();
+    const program = new Program(idl2, programID, provider);
     return await program.account.project.all();
   }
 
   //that's the create project function basically, it calls the rust contract but does not yet add the value to the table
   async function update(name, number, price) {
     if (!name) return;
+    const provider = await getProvider();
     const projectAccount = web3.Keypair.generate();
+    const program = new Program(idl2, programID, provider);
     const tx = await program.rpc.create(new BN(number), new BN(price), name, {
       accounts: {
         project: projectAccount.publicKey,
-        //current error
+        //current error:    Cannot read properties of undefined (reading 'publicKey')
         seller: provider.wallet.publicKey,
         systemProgram: web3.SystemProgram.programId,
       },
