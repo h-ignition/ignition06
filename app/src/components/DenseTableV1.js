@@ -51,6 +51,22 @@ export default function DenseTable(props) {
     const program = new Program(idl2, programID, provider);
     return await program.account.project.all();
   }
+  React.useEffect(() => {
+    // Create an scoped async function in the hook
+    getAllProjects().then((projects) => {
+      let pl = [];
+      projects.forEach((p) => {
+        // p.publicKey
+        // p.account
+        pl.push({
+          name: p.account.name,
+          number: p.account.totalOffset.toString(),
+          price: p.account.offsetPrice.toString(),
+        });
+      });
+      setProjectList(pl);
+    });
+  }, []);
 
   //that's the create project function basically, it calls the rust contract but does not yet add the value to the table
   async function update(name, number, price) {
