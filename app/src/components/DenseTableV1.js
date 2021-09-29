@@ -12,16 +12,20 @@ import { BN, Program, Provider, web3 } from "@project-serum/anchor";
 import idl2 from "../idl2.json";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
-
-const { SystemProgram, Keypair } = web3;
-const baseAccount = Keypair.generate();
 const opts = {
   preflightCommitment: "processed",
 };
 const programID = new PublicKey(idl2.metadata.address);
 
-export default function DenseTable(props) {
+export default function DenseTable() {
   const wallet = useWallet();
+  async function getProvider() {
+    const network = "http://127.0.0.1:8899";
+    const connection = new Connection(network, opts.preflightCommitment);
+    const provider = new Provider(connection, wallet, opts.preflightCommitment);
+    return provider;
+  }
+  const program = new Program(idl2, programID, getProvider());
   const [name, setName] = useState("");
   const [number, setNumber] = useState(0);
   const [price, setPrice] = useState(0);
@@ -39,27 +43,37 @@ export default function DenseTable(props) {
     },
   ]);
 
-  async function getProvider() {
-    const network = "http://127.0.0.1:8899";
-    const connection = new Connection(network, opts.preflightCommitment);
-    const provider = new Provider(connection, wallet, opts.preflightCommitment);
-    return provider;
+  async function getAllProjects() {
+    return await program.account.project.all();
   }
+
+  React.useEffect(() => {
+    // Create an scoped async function in the hook
+    getAllProjects().then((projects) => {
+      let pl = [];
+      projects.forEach((p) => {
+        // p.publicKey
+        // p.account
+        pl.push({
+          name: p.account.name,
+          number: p.account.totalOffset.toString(),
+          price: p.account.offsetPrice.toString(),
+        });
+      });
+      setProjectList(pl);
+    });
+  }, []);
 
   //that's the create project function basically, it calls the rust contract but does not yet add the value to the table
   async function update(name, number, price) {
     if (!name) return;
-    const provider = await getProvider();
-    const program = new Program(idl2, programID, provider);
     const projectAccount = web3.Keypair.generate();
     const tx = await program.rpc.create(new BN(number), new BN(price), name, {
       accounts: {
         project: projectAccount.publicKey,
-        seller: provider.wallet.publicKey,
+        seller: getProvider().wallet.publicKey,
         systemProgram: web3.SystemProgram.programId,
       },
-
-      //one of the signers is undefined
       signers: [projectAccount],
     });
   }
