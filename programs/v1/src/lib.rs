@@ -6,7 +6,7 @@ use anchor_lang::solana_program::{
     sysvar::Sysvar,
 };
 
-declare_id!("GLKzKAeX98qxdnzCM6URw9dhat3CTAyi5NUTVZ2U9esc");
+declare_id!("tQktJxBCKDRHE68CJHQT2D93AfkE9hr4p24SVbY9q2Y");
 
 #[program]
 pub mod harmonia {

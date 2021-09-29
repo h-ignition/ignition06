@@ -60,7 +60,7 @@ export default function DenseTable(props) {
       },
 
       //one of the signers is undefined
-      signers: [projectAccount, provider.wallet.publicKey],
+      signers: [projectAccount],
     });
   }
 
