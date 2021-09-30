@@ -52,7 +52,9 @@ export default function DenseTable(props) {
           number: p.account.totalOffset.toString(),
           price: p.account.offsetPrice.toString(),
           address: p.publicKey,
+          owner: p.account.authority.toString(),
         });
+        console.log(p.account.authority.toString());
       });
       setProjectList(pl);
     });
@@ -65,7 +67,6 @@ export default function DenseTable(props) {
     const tx = await program.rpc.create(new BN(number), new BN(price), name, {
       accounts: {
         project: projectAccount.publicKey,
-
         seller: provider.wallet.publicKey,
         systemProgram: web3.SystemProgram.programId,
       },
@@ -76,13 +77,13 @@ export default function DenseTable(props) {
   async function buy() {
     const provider = await getProvider();
     const program = new Program(idl2, programID, provider);
-    const sellerAccount = web3.Keypair.generate();
+
     await program.rpc.buy(new BN(3), {
       accounts: {
         //unsure what to put here
         project: projectList[0].address,
         buyer: provider.wallet.publicKey,
-        seller: sellerAccount.publicKey,
+        seller: projectList[0].address.owner,
         systemProgram: web3.SystemProgram.programId,
       },
       //unsure what to put here
@@ -109,11 +110,11 @@ export default function DenseTable(props) {
           <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
             <TableHead>
               <TableRow>
-                <TableCell>Dessert (100g serving)</TableCell>
                 <TableCell align="right">Project Name</TableCell>
                 <TableCell align="right">CO2e Available (T)</TableCell>
                 <TableCell align="right">CO2e Sold (T)</TableCell>
                 <TableCell align="right">Price(g)</TableCell>
+                <TableCell align="right">owner</TableCell>
                 <button
                   onClick={() => {
                     buy();
@@ -134,7 +135,8 @@ export default function DenseTable(props) {
                   </TableCell>
                   <TableCell align="right">{row.number}</TableCell>
                   <TableCell align="right">{row.price}</TableCell>
-                  <TableCell align="right">{row.address.toString()}</TableCell>
+                  <TableCell align="right">{row.address}</TableCell>
+                  <TableCell align="right">{row.owner}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
