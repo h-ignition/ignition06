@@ -80,13 +80,13 @@ export default function DenseTable(props) {
     const sellerAccount = web3.Keypair.generate();
     await program.rpc.buy(new BN(3), {
       accounts: {
-        project: projectList[0].publicKey,
+        project: projectList[0].address,
         buyer: provider.wallet.publicKey,
         seller: sellerAccount.publicKey,
         systemProgram: web3.SystemProgram.programId,
       },
       //unsure what to put here
-      signers: [projectList[0].address],
+      signers: [],
     });
   }
 
