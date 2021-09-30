@@ -51,7 +51,7 @@ export default function DenseTable(props) {
           name: p.account.name,
           number: p.account.totalOffset.toString(),
           price: p.account.offsetPrice.toString(),
-          address: p.account.authority.toString(),
+          address: p.publicKey,
         });
       });
       setProjectList(pl);
@@ -80,6 +80,7 @@ export default function DenseTable(props) {
     const sellerAccount = web3.Keypair.generate();
     await program.rpc.buy(new BN(3), {
       accounts: {
+        //unsure what to put here
         project: projectList[0].address,
         buyer: provider.wallet.publicKey,
         seller: sellerAccount.publicKey,
@@ -134,7 +135,7 @@ export default function DenseTable(props) {
                   </TableCell>
                   <TableCell align="right">{row.number}</TableCell>
                   <TableCell align="right">{row.price}</TableCell>
-                  <TableCell align="right">{row.address}</TableCell>
+                  <TableCell align="right">{row.address.toString()}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
