@@ -55,9 +55,8 @@ export default function DenseTable(props) {
         });
       });
       setProjectList(pl);
-      console.log(projectList[0]);
     });
-  }, [projectList]);
+  }, []);
   async function update(name, number, price) {
     if (!name) return;
     const provider = await getProvider();
