@@ -35,12 +35,12 @@ export default function DenseTable(props) {
 
   const [projectList, setProjectList] = useState([]);
 
-  async function getAllProjects() {
-    const provider = await getProvider();
-    const program = new Program(idl2, programID, provider);
-    return await program.account.project.all();
-  }
   React.useEffect(() => {
+    async function getAllProjects() {
+      const provider = await getProvider();
+      const program = new Program(idl2, programID, provider);
+      return await program.account.project.all();
+    }
     // Create an scoped async function in the hook
     getAllProjects().then((projects) => {
       let pl = [];
@@ -51,13 +51,13 @@ export default function DenseTable(props) {
           name: p.account.name,
           number: p.account.totalOffset.toString(),
           price: p.account.offsetPrice.toString(),
-          address: p.account.PublicKey,
+          address: p.account.authority.toString(),
         });
       });
       setProjectList(pl);
       console.log(projectList[0]);
     });
-  }, []);
+  }, [projectList]);
   async function update(name, number, price) {
     if (!name) return;
     const provider = await getProvider();
