@@ -23,7 +23,6 @@ export default function Registry() {
   async function getProvider() {
     const network = "http://127.0.0.1:8899";
     const connection = new Connection(network, opts.preflightCommitment);
-
     const provider = new Provider(connection, wallet, opts.preflightCommitment);
     return provider;
   }
