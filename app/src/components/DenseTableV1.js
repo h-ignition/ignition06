@@ -33,18 +33,7 @@ export default function DenseTable(props) {
     return provider;
   }
 
-  const [projectList, setProjectList] = useState([
-    {
-      name: "p1",
-      number: 23,
-      price: 45555,
-    },
-    {
-      name: "p2",
-      number: 23,
-      price: 4555,
-    },
-  ]);
+  const [projectList, setProjectList] = useState([]);
 
   async function getAllProjects() {
     const provider = await getProvider();
@@ -62,13 +51,13 @@ export default function DenseTable(props) {
           name: p.account.name,
           number: p.account.totalOffset.toString(),
           price: p.account.offsetPrice.toString(),
+          address: p.account.PublicKey,
         });
       });
       setProjectList(pl);
+      console.log(projectList[0]);
     });
   }, []);
-
-  //that's the create project function basically, it calls the rust contract but does not yet add the value to the table
   async function update(name, number, price) {
     if (!name) return;
     const provider = await getProvider();
@@ -77,12 +66,27 @@ export default function DenseTable(props) {
     const tx = await program.rpc.create(new BN(number), new BN(price), name, {
       accounts: {
         project: projectAccount.publicKey,
-        //current error:    Cannot read properties of undefined (reading 'publicKey')
+
         seller: provider.wallet.publicKey,
         systemProgram: web3.SystemProgram.programId,
       },
 
       signers: [projectAccount],
+    });
+  }
+  async function buy() {
+    const provider = await getProvider();
+    const program = new Program(idl2, programID, provider);
+    const sellerAccount = web3.Keypair.generate();
+    await program.rpc.buy(new BN(3), {
+      accounts: {
+        project: projectList[0].publicKey,
+        buyer: provider.wallet.publicKey,
+        seller: sellerAccount.publicKey,
+        systemProgram: web3.SystemProgram.programId,
+      },
+      //unsure what to put here
+      signers: [projectList[0].address],
     });
   }
 
@@ -110,6 +114,13 @@ export default function DenseTable(props) {
                 <TableCell align="right">CO2e Available (T)</TableCell>
                 <TableCell align="right">CO2e Sold (T)</TableCell>
                 <TableCell align="right">Price(g)</TableCell>
+                <button
+                  onClick={() => {
+                    buy();
+                  }}
+                >
+                  purchase 10
+                </button>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -123,6 +134,7 @@ export default function DenseTable(props) {
                   </TableCell>
                   <TableCell align="right">{row.number}</TableCell>
                   <TableCell align="right">{row.price}</TableCell>
+                  <TableCell align="right">{row.address}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
