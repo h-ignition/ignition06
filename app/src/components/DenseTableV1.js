@@ -13,7 +13,7 @@ import idl2 from "../idl2.json";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 
-const { SystemProgram, Keypair } = web3;
+const { Keypair } = web3;
 const baseAccount = Keypair.generate();
 const opts = {
   preflightCommitment: "processed",
@@ -134,8 +134,8 @@ export default function DenseTable(props) {
                   </TableCell>
                   <TableCell align="right">{row.number}</TableCell>
                   <TableCell align="right">{row.price}</TableCell>
-                  <TableCell align="right">{row.address}</TableCell>
-                  <TableCell align="right">{row.owner}</TableCell>
+                  {/*<TableCell align="right">{row.address}</TableCell>*/}
+                  {/*<TableCell align="right">{row.owner}</TableCell>*/}
                 </TableRow>
               ))}
             </TableBody>
