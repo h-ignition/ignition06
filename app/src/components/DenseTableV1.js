@@ -57,12 +57,12 @@ export default function DenseTable(props) {
         // p.account
         pl.push({
           name: p.account.name,
-          number: p.account.available_offset,
+          number: p.account.availableOffset.toString(),
           price: p.account.offsetPrice.toString(),
           address: p.publicKey.toString(),
           owner: p.account.authority.toString(),
         });
-        console.log(p.account.available_offset);
+        console.log(p.account.availableOffset.toString());
         console.log(p.account.authority.toString());
         console.log(p.publicKey.toString());
       });
