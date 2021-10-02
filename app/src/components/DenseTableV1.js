@@ -57,11 +57,12 @@ export default function DenseTable(props) {
         // p.account
         pl.push({
           name: p.account.name,
-          number: p.account.totalOffset.toString(),
+          number: p.account.available_offset,
           price: p.account.offsetPrice.toString(),
           address: p.publicKey.toString(),
           owner: p.account.authority.toString(),
         });
+        console.log(p.account.available_offset);
         console.log(p.account.authority.toString());
         console.log(p.publicKey.toString());
       });
@@ -87,11 +88,11 @@ export default function DenseTable(props) {
     const provider = await getProvider();
     const program = new Program(idl2, programID, provider);
 
-    await program.rpc.buy(new BN(3), {
+    await program.rpc.buy(new BN(2), {
       accounts: {
-        project: projectList[0].address,
+        project: projectList[4].address,
         buyer: provider.wallet.publicKey,
-        seller: projectList[0].address.owner,
+        seller: projectList[4].owner,
         systemProgram: web3.SystemProgram.programId,
       },
 
