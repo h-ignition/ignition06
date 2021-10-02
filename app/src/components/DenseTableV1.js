@@ -33,7 +33,15 @@ export default function DenseTable(props) {
     return provider;
   }
 
-  const [projectList, setProjectList] = useState([]);
+  const [projectList, setProjectList] = useState([
+    {
+      name: "p.account.name",
+      number: "p.account.totalOffset.toString()",
+      price: "p.account.offsetPrice.toString()",
+      address: "p.publicKey",
+      owner: "p.account.authority.toString()",
+    },
+  ]);
 
   React.useEffect(() => {
     async function getAllProjects() {
@@ -51,10 +59,11 @@ export default function DenseTable(props) {
           name: p.account.name,
           number: p.account.totalOffset.toString(),
           price: p.account.offsetPrice.toString(),
-          address: p.publicKey,
+          address: p.publicKey.toString(),
           owner: p.account.authority.toString(),
         });
         console.log(p.account.authority.toString());
+        console.log(p.publicKey.toString());
       });
       setProjectList(pl);
     });
@@ -134,8 +143,8 @@ export default function DenseTable(props) {
                   </TableCell>
                   <TableCell align="right">{row.number}</TableCell>
                   <TableCell align="right">{row.price}</TableCell>
-                  {/*<TableCell align="right">{row.address}</TableCell>*/}
-                  {/*<TableCell align="right">{row.owner}</TableCell>*/}
+                  {<TableCell align="right">{row.address}</TableCell>}
+                  {<TableCell align="right">{row.owner}</TableCell>}
                 </TableRow>
               ))}
             </TableBody>
