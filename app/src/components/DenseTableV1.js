@@ -84,11 +84,11 @@ export default function DenseTable(props) {
       signers: [projectAccount],
     });
   }
-  async function buy() {
+  async function buy(amount) {
     const provider = await getProvider();
     const program = new Program(idl2, programID, provider);
 
-    await program.rpc.buy(new BN(2), {
+    await program.rpc.buy(new BN(amount), {
       accounts: {
         project: projectList[4].address,
         buyer: provider.wallet.publicKey,
@@ -98,6 +98,12 @@ export default function DenseTable(props) {
 
       signers: [],
     });
+    var q = (amount * 3) / 100 + 1;
+    alert(
+      "thanks for your purchase, an nft lvl" +
+        { q } +
+        "will be added to your Solana wallet"
+    );
   }
 
   if (!wallet.connected) {
@@ -126,7 +132,7 @@ export default function DenseTable(props) {
                 <TableCell align="right">owner</TableCell>
                 <button
                   onClick={() => {
-                    buy();
+                    buy(25);
                   }}
                 >
                   purchase 10
