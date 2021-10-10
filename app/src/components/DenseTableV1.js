@@ -132,7 +132,7 @@ export default function DenseTable(props) {
                 <TableCell align="right">owner</TableCell>
                 <button
                   onClick={() => {
-                    buy(25);
+                    buy(1);
                   }}
                 >
                   purchase 10
