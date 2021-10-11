@@ -1,3 +1,6 @@
+[programs.devnet]
+ignition06 = "tQktJxBCKDRHE68CJHQT2D93AfkE9hr4p24SVbY9q2Y"
+
 [programs.localnet]
 ignition06 = "tQktJxBCKDRHE68CJHQT2D93AfkE9hr4p24SVbY9q2Y"
 
@@ -5,7 +8,7 @@ ignition06 = "tQktJxBCKDRHE68CJHQT2D93AfkE9hr4p24SVbY9q2Y"
 url = "https://anchor.projectserum.com"
 
 [provider]
-cluster = "localnet"
+cluster = "devnet"
 wallet = "/home/nuhutuh25/.config/solana/id.json"
 
 [scripts]

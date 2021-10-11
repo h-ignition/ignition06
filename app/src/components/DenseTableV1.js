@@ -7,7 +7,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { useState } from "react";
-import { Connection, PublicKey } from "@solana/web3.js";
+import { Connection, PublicKey, clusterApiUrl } from "@solana/web3.js";
 import { BN, Program, Provider, web3 } from "@project-serum/anchor";
 import idl2 from "../idl2.json";
 import { useWallet } from "@solana/wallet-adapter-react";
@@ -27,7 +27,7 @@ export default function DenseTable(props) {
   const [price, setPrice] = useState(0);
   const [value, setValue] = useState("");
   async function getProvider() {
-    const network = "http://127.0.0.1:8899";
+    const network = clusterApiUrl("devnet");
     const connection = new Connection(network, opts.preflightCommitment);
     const provider = new Provider(connection, wallet, opts.preflightCommitment);
     return provider;
