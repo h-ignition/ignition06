@@ -1,116 +1,233 @@
 {
-    "version": "0.0.0",
-    "name": "harmonia",
-    "instructions": [
-      {
-        "name": "create",
-        "accounts": [
+  "version": "0.0.0",
+  "name": "harmonia",
+  "instructions": [
+    {
+      "name": "create",
+      "accounts": [
+        {
+          "name": "project",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "seller",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "offsets",
+          "type": "u64"
+        },
+        {
+          "name": "price",
+          "type": "u64"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "name": "picture",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "buy",
+      "accounts": [
+        {
+          "name": "project",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "buyer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "seller",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    },
+    {
+      "name": "buyAndMint",
+      "accounts": [
+        {
+          "name": "project",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "buyer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "seller",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "candyProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "config",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "candyMachine",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "payer",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "wallet",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "associatedToken",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "metadata",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "mint",
+          "isMut": true,
+          "isSigner": true
+        },
+        {
+          "name": "masterEdition",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "tokenMetadataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "ataProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "tokenProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "rent",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "clock",
+          "isMut": false,
+          "isSigner": false
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        }
+      ]
+    }
+  ],
+  "accounts": [
+    {
+      "name": "Project",
+      "type": {
+        "kind": "struct",
+        "fields": [
           {
-            "name": "project",
-            "isMut": true,
-            "isSigner": true
+            "name": "authority",
+            "type": "publicKey"
           },
           {
-            "name": "seller",
-            "isMut": true,
-            "isSigner": true
-          },
-          {
-            "name": "systemProgram",
-            "isMut": false,
-            "isSigner": false
-          }
-        ],
-        "args": [
-          {
-            "name": "offsets",
+            "name": "availableOffset",
             "type": "u64"
           },
           {
-            "name": "price",
+            "name": "totalOffset",
+            "type": "u64"
+          },
+          {
+            "name": "offsetPrice",
             "type": "u64"
           },
           {
             "name": "name",
             "type": "string"
-          }
-        ]
-      },
-      {
-        "name": "buy",
-        "accounts": [
-          {
-            "name": "project",
-            "isMut": true,
-            "isSigner": false
           },
           {
-            "name": "buyer",
-            "isMut": true,
-            "isSigner": true
+            "name": "description",
+            "type": "string"
           },
           {
-            "name": "seller",
-            "isMut": true,
-            "isSigner": false
-          },
-          {
-            "name": "systemProgram",
-            "isMut": false,
-            "isSigner": false
-          }
-        ],
-        "args": [
-          {
-            "name": "amount",
-            "type": "u64"
+            "name": "pictureUrl",
+            "type": "string"
           }
         ]
       }
-    ],
-    "accounts": [
-      {
-        "name": "Project",
-        "type": {
-          "kind": "struct",
-          "fields": [
-            {
-              "name": "authority",
-              "type": "publicKey"
-            },
-            {
-              "name": "availableOffset",
-              "type": "u64"
-            },
-            {
-              "name": "totalOffset",
-              "type": "u64"
-            },
-            {
-              "name": "offsetPrice",
-              "type": "u64"
-            },
-            {
-              "name": "name",
-              "type": "string"
-            }
-          ]
-        }
-      }
-    ],
-    "errors": [
-      {
-        "code": 300,
-        "name": "NotEnoughOffsetAvailable",
-        "msg": "Not enough offset available"
-      },
-      {
-        "code": 301,
-        "name": "SellerIsNotAuthority",
-        "msg": "Can only send lamports to project authority"
-      }
-    ],
-    "metadata": {
-      "address": "tQktJxBCKDRHE68CJHQT2D93AfkE9hr4p24SVbY9q2Y"
     }
+  ],
+  "errors": [
+    {
+      "code": 300,
+      "name": "NotEnoughOffsetAvailable",
+      "msg": "Not enough offset available"
+    },
+    {
+      "code": 301,
+      "name": "SellerIsNotAuthority",
+      "msg": "Can only send lamports to project authority"
+    }
+  ],
+  "metadata": {
+    "address": "HARm9wjX7iJ1eqQCckXdd1imRFXE6PsVChVdV4PbfLc"
   }
+}

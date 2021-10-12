@@ -20,7 +20,7 @@ const opts = {
 };
 const programID = new PublicKey(idl2.metadata.address);
 
-export default function DenseTable(props) {
+export default function DenseTable() {
   const wallet = useWallet();
   const [name, setName] = useState("");
   const [number, setNumber] = useState(0);
@@ -74,15 +74,22 @@ export default function DenseTable(props) {
     const provider = await getProvider();
     const projectAccount = web3.Keypair.generate();
     const program = new Program(idl2, programID, provider);
-    const tx = await program.rpc.create(new BN(number), new BN(price), name, {
-      accounts: {
-        project: projectAccount.publicKey,
-        seller: provider.wallet.publicKey,
-        systemProgram: web3.SystemProgram.programId,
-      },
+    const tx = await program.rpc.create(
+      new BN(number),
+      new BN(price),
+      name,
+      "this is kindness",
+      "https://3gokwgc642v5nlkmfbvv6gmgzw7daw25rs3rgtn375zcoxy6xjhq.arweave.net/2ZyrGF7mq9atTChrXxmGzb4wW12MtxNNu_9yJ18euk8/?ext=png",
+      {
+        accounts: {
+          project: projectAccount.publicKey,
+          seller: provider.wallet.publicKey,
+          systemProgram: web3.SystemProgram.programId,
+        },
 
-      signers: [projectAccount],
-    });
+        signers: [projectAccount],
+      }
+    );
   }
   async function buy(amount) {
     const provider = await getProvider();
@@ -100,9 +107,7 @@ export default function DenseTable(props) {
     });
     var q = (amount * 3) / 100 + 1;
     alert(
-      "thanks for your purchase, an nft lvl" +
-        { q } +
-        "will be added to your Solana wallet"
+      `thanks for your purchase, an nft lvl ${q} will be added to your Solana wallet`
     );
   }
 
