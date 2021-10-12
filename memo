@@ -1,4 +1,7 @@
 HLzNPGRFKGDxqRdD9mrrBELQf7sRVFq5CWXD2YJWwKuc
+wallet public key: 9JHJomPyKtfFqCtxrtu6hp6G7X4PNQiwqNwabYtRK2g
+
+program id from anchor CANHaiDd6HPK3ykgunmXFNZMrZ4KbZgEidY5US2L8CTw
 
 cm pub key 4MbowVsUaMy2PaLX2kbcWX8KCDG5zmgC4psXXyPjbhq5
 candy machine with publickey: 85YFG7tXGm5bQPhq2tKmMCxizU1adehE8ztrPBakf691
@@ -20,3 +23,4 @@ nuhutuh25@nuhutuh25-Inspiron-5502:~/Desktop/ignition-v0.7$ solana address -k ~/.
 9JHJomPyKtfFqCtxrtu6hp6G7X4PNQiwqNwabYtRK2g
 nuhutuh25@nuhutuh25-Inspiron-5502:~/Desktop/ignition-v0.7$ 
 
+Maybe the authority problem comes from the Anchor.toml file wher I did not put the program.devnet and program.localnet

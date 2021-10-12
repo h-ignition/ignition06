@@ -250,7 +250,7 @@ pub mod candy_machine {
 
     pub fn update_candy_machine(
         ctx: Context<UpdateCandyMachine>,
-        price: Option<u64>,
+        _price: Option<u64>,
         go_live_date: Option<i64>,
     ) -> ProgramResult {
         let candy_machine = &mut ctx.accounts.candy_machine;
