@@ -21,6 +21,7 @@ import {
   setProvider,
 } from "@project-serum/anchor";
 import idl2 from "../idl2.json";
+import idl from "../idl.json";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import {

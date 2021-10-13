@@ -1,0 +1,21 @@
+:root {
+    --primary: #d4ac34;
+    --secondary: #2D2D2D;
+}
+
+.w-100{
+    width: 100%;
+}
+
+.section-title {
+    font-size: 1.6em;
+    font-weight: 900;
+    margin-bottom: 10px;
+    &::after {
+        content: "";
+        display: block;
+        width: 90px;
+        height: 5px;
+        background: var(--primary);
+      }
+}

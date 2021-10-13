@@ -1,0 +1,41 @@
+{
+    "name": "7",
+    "symbol": "",
+    "image": "image.png",
+    "properties": {
+        "files": [
+            {
+                "uri": "image.png",
+                "type": "image/png"
+            }
+        ],
+        "category": "image",
+        "creators": [
+            {
+                "address": "MaTTebhoaVLiSntZ6XSJCkiNGNu2vMYFcJwrxaSzdq2",
+                "share": 100
+            }
+        ]
+    },
+    "description": "",
+    "seller_fee_basis_points": 500,
+    "attributes": [
+        {
+            "trait_type": "background",
+            "value": "light-green"
+        },
+        {
+            "trait_type": "eyes",
+            "value": "star-eyes"
+        },
+        {
+            "trait_type": "mouth",
+            "value": "triangle-mouth"
+        },
+        {
+            "trait_type": "face",
+            "value": "cyan-face"
+        }
+    ],
+    "collection": {}
+}
