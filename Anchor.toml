@@ -14,4 +14,4 @@ cluster = "devnet"
 wallet = "/home/nuhutuh25/.config/solana/devnet.json"
 
 [scripts]
-test = "mocha -t 1000000 tests/"
+test = "mocha -t 1000000 tests/*.ts --timeout 300000"
