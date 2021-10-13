@@ -48,7 +48,10 @@ const baseAccount = Keypair.generate();
 const opts = {
   preflightCommitment: "processed",
 };
+
+///Caution with poor naming here!!!!!!!!!
 const programID = new PublicKey(idl2.metadata.address);
+const programID2 = new PublicKey(idl.metadata.address)
 
 export default function DenseTable() {
   const wallet = useWallet();
@@ -148,7 +151,7 @@ export default function DenseTable() {
     const projectAccount = new web3.PublicKey("6qthogdMfaYtdeLrfaCfFtYQAiouRoPpaWsgS7nDoNkH")
     const buyerAccount = provider.wallet
     const harmoniaProgram = new Program(idl2, programID, provider);
-    const candyProgram = new Program(idl, programID, provider);
+    const candyProgram = new Program(idl, programID2, provider);
     const candyProgramId = candyProgram.programId;
     console.log(`Connecting to ${provider.connection["_rpcEndpoint"]}`);
     let config = new web3.PublicKey(
