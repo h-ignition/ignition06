@@ -151,7 +151,9 @@ export default function DenseTable() {
     const candyProgram = new Program(idl, programID, provider);
     const candyProgramId = candyProgram.programId;
     console.log(`Connecting to ${provider.connection["_rpcEndpoint"]}`);
-    let config = "GMxBmPkJsAvC4QJXjroagjBQQmSwdC1qhQhaVGL6cjgB";
+    let config = new web3.PublicKey(
+      "GMxBmPkJsAvC4QJXjroagjBQQmSwdC1qhQhaVGL6cjgB"
+    );
     let candyMachineUuid = "GMxBmP";
     /////////////////////////////////////////////////////////////
     const mint = web3.Keypair.generate();

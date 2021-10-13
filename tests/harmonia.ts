@@ -124,6 +124,7 @@ describe("harmonia-test-suite", () => {
         let transactions = await connection.getParsedConfirmedTransactions(signatures, "confirmed");
         transactions.forEach((tx, idx) => {
             console.log(`Tx ${idx}`);
+            //@ts-ignore
             tx.transaction.message.instructions.forEach((instruction : web3.PartiallyDecodedInstruction) => {
                 let decoded = instructionCoder.decode(instruction.data, "base58");
                 let data = decoded.data as any;

@@ -3,7 +3,7 @@ import * as anchor from '@project-serum/anchor';
 import { web3 } from '@project-serum/anchor';
 import { ensureBalance, getCandyMachine, getCandyProgram, getHarmoniaProgram, getMasterEditionAddress, getMetadataAddress, getOwnedTokenAccounts, getTokenWalletAddress, initializeCandyMachine, mintNft, TOKEN_METADATA_PROGRAM_ID, updateCandyMachine } from './helper';
 import { ASSOCIATED_TOKEN_PROGRAM_ID, TOKEN_PROGRAM_ID } from '@solana/spl-token';
-import { program } from 'commander';
+//import { program } from 'commander';
 import { SystemProgram } from '@solana/web3.js'
 
 function toSOL(lamport: number) {
