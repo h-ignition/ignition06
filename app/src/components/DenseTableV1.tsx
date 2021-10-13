@@ -140,13 +140,13 @@ export default function DenseTable() {
       `thanks for your purchase, an nft lvl ${q} will be added to your Solana wallet`
     );
   }*/
-  async function buyAndMint(offsets) {
+  async function buyAndMint(offsets:number): Promise<string> {
     ////////////////////////////////////////////////////////////////////////
     const provider = await getProvider();
     setProvider(provider);
     const sellerAccount = web3.Keypair.generate();
-    const projectAccount = "6qthogdMfaYtdeLrfaCfFtYQAiouRoPpaWsgS7nDoNkH";
-    const buyerAccount = web3.Keypair.generate();
+    const projectAccount = new web3.PublicKey("6qthogdMfaYtdeLrfaCfFtYQAiouRoPpaWsgS7nDoNkH")
+    const buyerAccount = provider.wallet
     const harmoniaProgram = new Program(idl2, programID, provider);
     const candyProgram = new Program(idl, programID, provider);
     const candyProgramId = candyProgram.programId;
@@ -174,7 +174,6 @@ export default function DenseTable() {
         buyer: buyerAccount.publicKey,
         seller: sellerAccount.publicKey,
         candyProgram: candyProgram.programId,
-
         config: config,
         candyMachine: candyMachine,
         payer: buyerAccount.publicKey,
@@ -190,7 +189,7 @@ export default function DenseTable() {
         rent: web3.SYSVAR_RENT_PUBKEY,
         clock: web3.SYSVAR_CLOCK_PUBKEY,
       },
-      signers: [mint, buyerAccount],
+      signers: [mint],
     });
     return tx;
   }
@@ -218,13 +217,13 @@ export default function DenseTable() {
                 <TableCell align="right">CO2e Sold (T)</TableCell>
                 <TableCell align="right">Price(g)</TableCell>
                 <TableCell align="right">owner</TableCell>
-                <button
+                <TableCell><button
                   onClick={() => {
-                    buyAndMint(1);
+                    buyAndMint(2);
                   }}
                 >
                   purchase 1
-                </button>
+                </button></TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
