@@ -151,12 +151,12 @@ export default function DenseTable() {
     const candyProgram = new Program(idl, programID, provider);
     const candyProgramId = candyProgram.programId;
     console.log(`Connecting to ${provider.connection["_rpcEndpoint"]}`);
-    let config = null;
-    let candyMachineUuid = null;
+    let config = "GMxBmPkJsAvC4QJXjroagjBQQmSwdC1qhQhaVGL6cjgB";
+    let candyMachineUuid = "GMxBmP";
     /////////////////////////////////////////////////////////////
     const mint = web3.Keypair.generate();
     const [candyMachine, bump] = await getCandyMachine(
-      config.publicKey,
+      config,
       candyMachineUuid,
       candyProgramId
     );
@@ -168,12 +168,12 @@ export default function DenseTable() {
     const masterEdition = await getMasterEditionAddress(mint.publicKey);
     const tx = await harmoniaProgram.rpc.buyAndMint(new BN(offsets), {
       accounts: {
-        project: projectAccount.publicKey,
+        project: projectAccount,
         buyer: buyerAccount.publicKey,
         seller: sellerAccount.publicKey,
         candyProgram: candyProgram.programId,
 
-        config: config.publicKey,
+        config: config,
         candyMachine: candyMachine,
         payer: buyerAccount.publicKey,
         wallet: sellerAccount.publicKey, // treasury
