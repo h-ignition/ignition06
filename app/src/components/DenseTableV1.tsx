@@ -48,7 +48,6 @@ const baseAccount = Keypair.generate();
 const opts = {
   preflightCommitment: "processed",
 };
-
 ///Caution with poor naming here!!!!!!!!!
 const programID = new PublicKey(idl2.metadata.address);
 const programID2 = new PublicKey(idl.metadata.address)
@@ -60,14 +59,13 @@ export default function DenseTable() {
   const [price, setPrice] = useState(0);
   const [value, setValue] = useState("");
   async function getProvider() {
-    const network = clusterApiUrl("devnet")
-    //@ts-ignore
-    const connection = new Connection(network, opts.preflightCommitment);
-    //@ts-ignore
-    const provider = new Provider(connection, wallet, opts.preflightCommitment);
-    return provider;
+  const network = clusterApiUrl("devnet")
+  //@ts-ignore
+  const connection = new Connection(network, opts.preflightCommitment);
+  //@ts-ignore
+  const provider = new Provider(connection, wallet, opts.preflightCommitment);
+  return provider;
   }
-
   const [projectList, setProjectList] = useState([
     {
       name: "p.account.name",
@@ -107,7 +105,19 @@ export default function DenseTable() {
       setProjectList(pl);
     });
   }, []);
-  //@ts-ignore
+  
+
+
+
+
+
+
+
+
+
+
+
+//@ts-ignore
   async function update(name, number, price) {
     if (!name) return;
     const provider = await getProvider();
@@ -132,6 +142,13 @@ export default function DenseTable() {
       }
     );
   }
+
+
+
+
+
+
+
   async function buy(amount:number) {
     const provider = await getProvider();
     //@ts-ignore
@@ -153,35 +170,49 @@ export default function DenseTable() {
     );
   }
 
+
+
+
+
+
+
+
+ const sellerAccount = new web3.PublicKey("9wR6MPaeMZyKGn6f53knRAVHrnogAb3mf6cJ8CLmi6Uu")
+const projectAccount = new web3.PublicKey("6qthogdMfaYtdeLrfaCfFtYQAiouRoPpaWsgS7nDoNkH")
+
+    const candyMachineUuid = "GMxBmP";
+    const mint = web3.Keypair.generate();
+     const config = new web3.PublicKey(
+      "GMxBmPkJsAvC4QJXjroagjBQQmSwdC1qhQhaVGL6cjgB"
+    );
+    
+   
+
   async function buyAndMint(offsets:number): Promise<string> {
     const provider = await getProvider();
-    const sellerAccount = new web3.PublicKey("9wR6MPaeMZyKGn6f53knRAVHrnogAb3mf6cJ8CLmi6Uu")
-    const projectAccount = new web3.PublicKey("6qthogdMfaYtdeLrfaCfFtYQAiouRoPpaWsgS7nDoNkH")
-    //@ts-ignore
-    const buyerAccount = provider.wallet
-    //@ts-ignore
+   //@ts-ignore
     const harmoniaProgram = new Program(idl2, programID, provider);
     //@ts-ignore
     const candyProgram = new Program(idl, programID2, provider);
     const candyProgramId = candyProgram.programId;
     //@ts-ignore
+    const buyerAccount = provider.wallet
+     const metadata = await getMetadataAddress(mint.publicKey);
+    const masterEdition = await getMasterEditionAddress(mint.publicKey)
+
+    //@ts-ignore
     console.log(`Connecting to ${provider.connection["_rpcEndpoint"]}`);
-    let config = new web3.PublicKey(
-      "GMxBmPkJsAvC4QJXjroagjBQQmSwdC1qhQhaVGL6cjgB"
-    );
-    let candyMachineUuid = "GMxBmP";
-    const mint = web3.Keypair.generate();
     const [candyMachine, bump] = await getCandyMachine(
       config,
       candyMachineUuid,
       candyProgramId
     );
+    
     const token = await getTokenWalletAddress(
       buyerAccount.publicKey,
       mint.publicKey
     );
-    const metadata = await getMetadataAddress(mint.publicKey);
-    const masterEdition = await getMasterEditionAddress(mint.publicKey)
+    
 ///before mint:
  await ensureBalance(provider, provider.wallet.publicKey, 2)
  console.log("wallet ok")
@@ -216,6 +247,32 @@ console.log(candyProgram.account.candyMachine.fetch(candyMachine))
     });
     return tx;
   }
+
+
+
+
+
+ async function mint1() {
+/*
+    const [candyMachine, bump] = await getCandyMachine(config.publicKey, candyMachineUuid, candyProgramId);
+    const res = await mintNft(provider, candyProgram, candyMachine, config.publicKey, buyerAccount, sellerAccount.publicKey);
+
+    machineState = await candyProgram.account.candyMachine.fetch(candyMachine);
+    assert.ok(machineState.itemsRedeemedByLevel[0].eq(new anchor.BN(1)));
+    assert.ok(machineState.data.itemsByLevel[0].itemsAvailable.eq(new anchor.BN(10)));*/
+}
+
+
+
+
+
+
+
+
+
+
+
+
   if (!wallet.connected) {
     return (
       <div
@@ -243,6 +300,12 @@ console.log(candyProgram.account.candyMachine.fetch(candyMachine))
                 <TableCell><button
                   onClick={() => {
                     buyAndMint(1);
+                  }}
+                >
+                  purchase 1
+                </button><button
+                  onClick={() => {
+                    mint1();
                   }}
                 >
                   purchase 1
