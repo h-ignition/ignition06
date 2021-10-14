@@ -6,8 +6,8 @@ import assert from "assert"
 import * as anchor
 
  from "@project-serum/anchor";
-import idl2 from "../idl2.json";
-import idl from "../idl.json";
+import harmoniaIDL from "../idl2.json";
+import CMIDL from "../idl.json";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 import { web3 } from '@project-serum/anchor';
@@ -37,31 +37,35 @@ export default function Mint (){
 
     const provider = await getProvider();
     anchor.setProvider(provider);
-    const myWallet = provider.wallet["payer"] as web3.Keypair;
-
-    const sellerAccount = anchor.web3.Keypair.generate();
-    const projectAccount = anchor.web3.Keypair.generate();
-    const buyerAccount = anchor.web3.Keypair.generate();
-
-    const harmoniaProgram = getHarmoniaProgram(provider);
-    const candyProgram = getCandyProgram(provider);
+    
+    const myWallet = provider.wallet.publicKey//diff from test
+    
+    const sellerAccount = anchor.web3.Keypair.generate();//
+    const projectAccount = anchor.web3.Keypair.generate();//
+    const buyerAccount = anchor.web3.Keypair.generate();//
+    const harmoniaPID=new anchor.web3.PublicKey("HARm9wjX7iJ1eqQCckXdd1imRFXE6PsVChVdV4PbfLc")
+    const CMPID=new anchor.web3.PublicKey("CANHaiDd6HPK3ykgunmXFNZMrZ4KbZgEidY5US2L8CTw")
+    //@ts-ignore
+    const harmoniaProgram = new anchor.Program(harmoniaIDL, harmoniaPID, provider)
+    //@ts-ignore
+    const candyProgram = new anchor.Program(CMIDL, CMPID, provider)
     const candyProgramId: web3.PublicKey = candyProgram.programId;
 
     const projectDescription = "The proposed project activity is to treat the manure and wastewater from swine farms of Muyuan Foods Co.,Ltd., in Nanyang City, Henan Province (hereafter refer to as Muyuan) which consists fourteen subsidiary swine farms.";
     const projectPicture = "https://live.staticflickr.com/4133/4841550483_72190f5368_b.jpg";
 
-
+//@ts-ignore
     console.log(`Connecting to ${provider.connection["_rpcEndpoint"]}`);
-
+//@ts-ignore
     let config: web3.Keypair = null;
+    //@ts-ignore
     let candyMachineUuid: string = null;
-    let machineState: any = null;
-
-     async before () => {
+//@ts-ignore
+     async function beforeMint() {
         const harmoniaBalance = await ensureBalance(provider, provider.wallet.publicKey, 5);
         let sellerWallet = await ensureBalance(provider, sellerAccount.publicKey, 5);
         let buyerWallet = await ensureBalance(provider, buyerAccount.publicKey, 5);
-    });
+    };
 
 
     it('Create a project + candymachine', async () => {
@@ -85,6 +89,7 @@ export default function Mint (){
         candyMachineUuid = res.candyMachineUuid;
 
         const [candyMachine, bump] = await getCandyMachine(config.publicKey, candyMachineUuid, candyProgramId);
+        //@ts-ignore
         await updateCandyMachine(candyProgram, candyMachine, sellerAccount, null, 0);
 
 

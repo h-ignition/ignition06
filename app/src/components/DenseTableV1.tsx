@@ -60,8 +60,10 @@ export default function DenseTable() {
   const [price, setPrice] = useState(0);
   const [value, setValue] = useState("");
   async function getProvider() {
-    const network = clusterApiUrl("devnet");
+    const network = clusterApiUrl("devnet")
+    //@ts-ignore
     const connection = new Connection(network, opts.preflightCommitment);
+    //@ts-ignore
     const provider = new Provider(connection, wallet, opts.preflightCommitment);
     return provider;
   }
@@ -79,11 +81,13 @@ export default function DenseTable() {
   React.useEffect(() => {
     async function getAllProjects() {
       const provider = await getProvider();
+      //@ts-ignore
       const program = new Program(idl2, programID, provider);
       return await program.account.project.all();
     }
     // Create an scoped async function in the hook
     getAllProjects().then((projects) => {
+      //@ts-ignore
       let pl = [];
       projects.forEach((p) => {
         // p.publicKey
@@ -99,13 +103,17 @@ export default function DenseTable() {
         console.log(p.account.authority.toString());
         console.log(p.publicKey.toString());
       });
+      //@ts-ignore
       setProjectList(pl);
     });
   }, []);
+  //@ts-ignore
   async function update(name, number, price) {
     if (!name) return;
     const provider = await getProvider();
+    //@ts-ignore
     const projectAccount = web3.Keypair.generate();
+    //@ts-ignore
     const program = new Program(idl2, programID, provider);
     const tx = await program.rpc.create(
       new BN(number),
@@ -144,21 +152,25 @@ export default function DenseTable() {
     );
   }*/
   async function buyAndMint(offsets:number): Promise<string> {
-    ////////////////////////////////////////////////////////////////////////
+    
     const provider = await getProvider();
     setProvider(provider);
     const sellerAccount = web3.Keypair.generate();
     const projectAccount = new web3.PublicKey("6qthogdMfaYtdeLrfaCfFtYQAiouRoPpaWsgS7nDoNkH")
+    //@ts-ignore
     const buyerAccount = provider.wallet
+    //@ts-ignore
     const harmoniaProgram = new Program(idl2, programID, provider);
+    //@ts-ignore
     const candyProgram = new Program(idl, programID2, provider);
     const candyProgramId = candyProgram.programId;
+    //@ts-ignore
     console.log(`Connecting to ${provider.connection["_rpcEndpoint"]}`);
     let config = new web3.PublicKey(
       "GMxBmPkJsAvC4QJXjroagjBQQmSwdC1qhQhaVGL6cjgB"
     );
     let candyMachineUuid = "GMxBmP";
-    /////////////////////////////////////////////////////////////
+    
     const mint = web3.Keypair.generate();
     const [candyMachine, bump] = await getCandyMachine(
       config,
@@ -222,7 +234,7 @@ export default function DenseTable() {
                 <TableCell align="right">owner</TableCell>
                 <TableCell><button
                   onClick={() => {
-                    buyAndMint(2);
+                    buyAndMint(0.01);
                   }}
                 >
                   purchase 1
@@ -232,6 +244,7 @@ export default function DenseTable() {
             <TableBody>
               {projectList.map((row) => (
                 <TableRow
+                //@ts-ignore
                   key={row}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
@@ -267,11 +280,13 @@ export default function DenseTable() {
               />
               <input
                 placeholder="number"
+                //@ts-ignore
                 onChange={(e) => setNumber(e.target.value)}
               />
               <input
                 placeholder="amount"
-                onChange={(e) => setPrice(e.target.value)}
+                //@ts-ignore
+                                onChange={(e) => setPrice(e.target.value)}
               />
               <button onClick={() => update(name, number, price)}>
                 Create New Project
