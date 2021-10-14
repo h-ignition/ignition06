@@ -151,6 +151,9 @@ export default function DenseTable() {
       `thanks for your purchase, an nft lvl ${q} will be added to your Solana wallet`
     );
   }*/
+  async function beforeMint() {
+    
+}
   async function buyAndMint(offsets:number): Promise<string> {
     
     const provider = await getProvider();
@@ -183,6 +186,16 @@ export default function DenseTable() {
     );
     const metadata = await getMetadataAddress(mint.publicKey);
     const masterEdition = await getMasterEditionAddress(mint.publicKey);
+
+
+
+///before mint:
+ await ensureBalance(provider, provider.wallet.publicKey, 2);
+     await ensureBalance(provider, sellerAccount.publicKey, 2);
+     await ensureBalance(provider, buyerAccount.publicKey, 2);
+
+///
+
     const tx = await harmoniaProgram.rpc.buyAndMint(new BN(offsets), {
       accounts: {
         project: projectAccount,
