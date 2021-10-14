@@ -311,7 +311,7 @@ export async function mintNft(provider: anchor.Provider, program: anchor.Program
             rent: anchor.web3.SYSVAR_RENT_PUBKEY,
             clock: anchor.web3.SYSVAR_CLOCK_PUBKEY,
         },
-        signers: [mint, payer],
+        signers: [mint],
         instructions: [
             anchor.web3.SystemProgram.createAccount({
                 fromPubkey: payer.publicKey,
