@@ -191,7 +191,6 @@ export default function DenseTable() {
 ///
 
       console.log(candyProgram.account.candyMachine.fetch(candyMachine))
-        //@ts-ignore
         
     const tx = await harmoniaProgram.rpc.buyAndMint(new BN(offsets), {
       accounts: {
