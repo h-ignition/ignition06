@@ -156,7 +156,7 @@ export default function DenseTable() {
     
     const provider = await getProvider();
    
-    const sellerAccount = web3.Keypair.generate();
+    const sellerAccount = new web3.PublicKey("9wR6MPaeMZyKGn6f53knRAVHrnogAb3mf6cJ8CLmi6Uu")
     const projectAccount = new web3.PublicKey("6qthogdMfaYtdeLrfaCfFtYQAiouRoPpaWsgS7nDoNkH")
     //@ts-ignore
     const buyerAccount = provider.wallet
@@ -190,7 +190,7 @@ export default function DenseTable() {
 ///before mint:
  await ensureBalance(provider, provider.wallet.publicKey, 2)
  console.log("wallet ok")
-     await ensureBalance(provider, sellerAccount.publicKey, 2)
+     await ensureBalance(provider, sellerAccount, 2)
      console.log("seller ok")
      await ensureBalance(provider, buyerAccount.publicKey, 2)
      console.log("buyer ok")
@@ -201,12 +201,12 @@ export default function DenseTable() {
       accounts: {
         project: projectAccount,
         buyer: buyerAccount.publicKey,
-        seller: sellerAccount.publicKey,
+        seller: sellerAccount,
         candyProgram: candyProgram.programId,
         config: config,
         candyMachine: candyMachine,
         payer: buyerAccount.publicKey,
-        wallet: sellerAccount.publicKey, // treasury
+        wallet: sellerAccount, // treasury
         mint: mint.publicKey,
         associatedToken: token,
         metadata: metadata,
@@ -248,7 +248,7 @@ export default function DenseTable() {
                 <TableCell align="right">owner</TableCell>
                 <TableCell><button
                   onClick={() => {
-                    buyAndMint(0.01);
+                    buyAndMint(1);
                   }}
                 >
                   purchase 1
