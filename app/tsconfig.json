@@ -22,5 +22,5 @@
   },
   "include": [
     "src"
-, "../trash/DenseTableV3.tsx", "../trash/nft.ts"  ]
+, "../trash/DenseTableV3.tsx", "../trash/DenseTableV3.tsx", "../trash/nft.ts"  ]
 }
