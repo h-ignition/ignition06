@@ -37,7 +37,7 @@ import {
   mintNft,
   TOKEN_METADATA_PROGRAM_ID,
   updateCandyMachine,
-} from "../utils/helper";
+} from "../utils/helper.ts";
 import {
   ASSOCIATED_TOKEN_PROGRAM_ID,
   TOKEN_PROGRAM_ID,
@@ -74,7 +74,22 @@ export default function DenseTable() {
       address: "p.publicKey",
       owner: "p.account.authority.toString()",
     },
-  ]);
+  ])
+  const sellerAccount = new web3.PublicKey("9wR6MPaeMZyKGn6f53knRAVHrnogAb3mf6cJ8CLmi6Uu")
+const projectAccount = new web3.PublicKey("6qthogdMfaYtdeLrfaCfFtYQAiouRoPpaWsgS7nDoNkH")
+
+    const candyMachineUuid = "GMxBmP"
+    const mint = web3.Keypair.generate()
+     const config = new web3.PublicKey(
+      "GMxBmPkJsAvC4QJXjroagjBQQmSwdC1qhQhaVGL6cjgB"
+    )
+
+
+
+
+
+
+
 
   React.useEffect(() => {
     async function getAllProjects() {
@@ -177,14 +192,7 @@ export default function DenseTable() {
 
 
 
- const sellerAccount = new web3.PublicKey("9wR6MPaeMZyKGn6f53knRAVHrnogAb3mf6cJ8CLmi6Uu")
-const projectAccount = new web3.PublicKey("6qthogdMfaYtdeLrfaCfFtYQAiouRoPpaWsgS7nDoNkH")
-
-    const candyMachineUuid = "GMxBmP";
-    const mint = web3.Keypair.generate();
-     const config = new web3.PublicKey(
-      "GMxBmPkJsAvC4QJXjroagjBQQmSwdC1qhQhaVGL6cjgB"
-    );
+ 
     
    
 
@@ -252,14 +260,44 @@ console.log(candyProgram.account.candyMachine.fetch(candyMachine))
 
 
 
- async function mint1() {
-/*
-    const [candyMachine, bump] = await getCandyMachine(config.publicKey, candyMachineUuid, candyProgramId);
-    const res = await mintNft(provider, candyProgram, candyMachine, config.publicKey, buyerAccount, sellerAccount.publicKey);
 
-    machineState = await candyProgram.account.candyMachine.fetch(candyMachine);
-    assert.ok(machineState.itemsRedeemedByLevel[0].eq(new anchor.BN(1)));
-    assert.ok(machineState.data.itemsByLevel[0].itemsAvailable.eq(new anchor.BN(10)));*/
+
+ async function mint1() {
+  const provider = await getProvider();
+  //@ts-ignore
+   const harmoniaProgram = new Program(idl2, programID, provider);
+   //@ts-ignore
+   const candyProgram = new Program(idl, programID2, provider);
+   const candyProgramId = candyProgram.programId;
+   //@ts-ignore
+   const buyerAccount = provider.wallet
+
+
+   //@ts-ignore
+   console.log(`Connecting to ${provider.connection["_rpcEndpoint"]}`);
+   const [candyMachine, bump] = await getCandyMachine(
+     config,
+     candyMachineUuid,
+     candyProgramId
+   );
+   
+   
+   
+///before mint:
+await ensureBalance(provider, provider.wallet.publicKey, 2)
+console.log("wallet ok")
+    await ensureBalance(provider, sellerAccount, 2)
+    console.log("seller ok")
+    await ensureBalance(provider, buyerAccount.publicKey, 2)
+    console.log("buyer ok")
+///
+    
+    const res = await mintNft(provider, candyProgram, candyMachine, config, buyerAccount, sellerAccount);
+
+    let machineState = await candyProgram.account.candyMachine.fetch(candyMachine);
+    //@ts-ignore
+    console.log(machineState.itemsRedeemedByLevel[0]==new BN(1));
+    
 }
 
 
