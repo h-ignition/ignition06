@@ -151,9 +151,7 @@ export default function DenseTable() {
       `thanks for your purchase, an nft lvl ${q} will be added to your Solana wallet`
     );
   }*/
-  async function beforeMint() {
-    
-}
+
   async function buyAndMint(offsets:number): Promise<string> {
     
     const provider = await getProvider();
