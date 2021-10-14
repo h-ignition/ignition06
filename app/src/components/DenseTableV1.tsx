@@ -155,7 +155,7 @@ export default function DenseTable() {
   async function buyAndMint(offsets:number): Promise<string> {
     
     const provider = await getProvider();
-    setProvider(provider);
+   
     const sellerAccount = web3.Keypair.generate();
     const projectAccount = new web3.PublicKey("6qthogdMfaYtdeLrfaCfFtYQAiouRoPpaWsgS7nDoNkH")
     //@ts-ignore
@@ -188,9 +188,12 @@ export default function DenseTable() {
 
 
 ///before mint:
- await ensureBalance(provider, provider.wallet.publicKey, 2);
-     await ensureBalance(provider, sellerAccount.publicKey, 2);
-     await ensureBalance(provider, buyerAccount.publicKey, 2);
+ await ensureBalance(provider, provider.wallet.publicKey, 2)
+ console.log("wallet ok")
+     await ensureBalance(provider, sellerAccount.publicKey, 2)
+     console.log("seller ok")
+     await ensureBalance(provider, buyerAccount.publicKey, 2)
+     console.log("buyer ok")
 
 ///
 
