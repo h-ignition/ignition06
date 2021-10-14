@@ -153,9 +153,7 @@ export default function DenseTable() {
   }*/
 
   async function buyAndMint(offsets:number): Promise<string> {
-    
     const provider = await getProvider();
-   
     const sellerAccount = new web3.PublicKey("9wR6MPaeMZyKGn6f53knRAVHrnogAb3mf6cJ8CLmi6Uu")
     const projectAccount = new web3.PublicKey("6qthogdMfaYtdeLrfaCfFtYQAiouRoPpaWsgS7nDoNkH")
     //@ts-ignore
@@ -171,7 +169,6 @@ export default function DenseTable() {
       "GMxBmPkJsAvC4QJXjroagjBQQmSwdC1qhQhaVGL6cjgB"
     );
     let candyMachineUuid = "GMxBmP";
-    
     const mint = web3.Keypair.generate();
     const [candyMachine, bump] = await getCandyMachine(
       config,
@@ -183,10 +180,7 @@ export default function DenseTable() {
       mint.publicKey
     );
     const metadata = await getMetadataAddress(mint.publicKey);
-    const masterEdition = await getMasterEditionAddress(mint.publicKey);
-
-
-
+    const masterEdition = await getMasterEditionAddress(mint.publicKey)
 ///before mint:
  await ensureBalance(provider, provider.wallet.publicKey, 2)
  console.log("wallet ok")
@@ -194,9 +188,11 @@ export default function DenseTable() {
      console.log("seller ok")
      await ensureBalance(provider, buyerAccount.publicKey, 2)
      console.log("buyer ok")
-
 ///
 
+        let machineState = await candyProgram.account.candyMachine.fetch(candyMachine);
+        //@ts-ignore
+        console.log(machineState.itemsRedeemedByLevel[0]==new anchor.BN(1));
     const tx = await harmoniaProgram.rpc.buyAndMint(new BN(offsets), {
       accounts: {
         project: projectAccount,
