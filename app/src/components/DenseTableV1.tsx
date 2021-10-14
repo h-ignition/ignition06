@@ -346,7 +346,7 @@ console.log("wallet ok")
                     mint1();
                   }}
                 >
-                  purchase 1
+                  mint 1
                 </button></TableCell>
               </TableRow>
             </TableHead>
