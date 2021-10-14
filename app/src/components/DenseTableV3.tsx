@@ -32,19 +32,10 @@ import {
 const opts = {
     preflightCommitment: "processed"
   }
+  import getProvider from "../utils/getProvider";
 export default function Mint (){
-    async function getProvider() {
-        /* create the provider and return it to the caller */
-        /* network set to local network for now */
-        const network = "http://127.0.0.1:8899";
-        const connection = new Connection(network, opts.preflightCommitment);
-    
-        const provider = new Provider(
-          connection, wallet, opts.preflightCommitment,
-        );
-        return provider;
-      }
-    const provider = anchor.Provider.env();
+
+    const provider = await getProvider();
     anchor.setProvider(provider);
     const myWallet = provider.wallet["payer"] as web3.Keypair;
 
