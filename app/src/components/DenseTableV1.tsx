@@ -190,9 +190,9 @@ export default function DenseTable() {
      console.log("buyer ok")
 ///
 
-        let machineState = await candyProgram.account.candyMachine.fetch(candyMachine);
+      console.log(candyProgram.account.candyMachine.fetch(candyMachine))
         //@ts-ignore
-        console.log(machineState.itemsRedeemedByLevel[0]==new anchor.BN(1));
+        
     const tx = await harmoniaProgram.rpc.buyAndMint(new BN(offsets), {
       accounts: {
         project: projectAccount,
