@@ -132,8 +132,9 @@ export default function DenseTable() {
       }
     );
   }
-  /*async function buy(amount) {
+  async function buy(amount:number) {
     const provider = await getProvider();
+    //@ts-ignore
     const program = new Program(idl2, programID, provider);
 
     await program.rpc.buy(new BN(amount), {
@@ -150,7 +151,7 @@ export default function DenseTable() {
     alert(
       `thanks for your purchase, an nft lvl ${q} will be added to your Solana wallet`
     );
-  }*/
+  }
 
   async function buyAndMint(offsets:number): Promise<string> {
     const provider = await getProvider();
@@ -189,9 +190,7 @@ export default function DenseTable() {
      await ensureBalance(provider, buyerAccount.publicKey, 2)
      console.log("buyer ok")
 ///
-
-      console.log(candyProgram.account.candyMachine.fetch(candyMachine))
-        
+console.log(candyProgram.account.candyMachine.fetch(candyMachine))
     const tx = await harmoniaProgram.rpc.buyAndMint(new BN(offsets), {
       accounts: {
         project: projectAccount,
