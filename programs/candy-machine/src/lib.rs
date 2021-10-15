@@ -8,7 +8,7 @@ use {
     arrayref::array_ref,
     spl_associated_token_account,
     spl_token::state::Mint,
-    spl_token_metadata::{
+    metaplex_token_metadata::{
         instruction::{create_master_edition, create_metadata_accounts, update_metadata_accounts},
         state::{
             MAX_CREATOR_LEN, MAX_CREATOR_LIMIT, MAX_NAME_LENGTH, MAX_SYMBOL_LENGTH, MAX_URI_LENGTH,
@@ -69,11 +69,11 @@ fn mint<'b, 'info>(offsets_amount: u64, ctx: MintAccounts<'b, 'info>) -> Program
 
     let mut nft_level = None;
     for i in 0..candy_machine.data.items_by_level.len() {
-        msg!(
-            "offsets_amount:{}, price:{}",
-            offsets_amount,
-            candy_machine.data.items_by_level[i].price
-        );
+        // msg!(
+        //     "offsets_amount:{}, price:{}",
+        //     offsets_amount,
+        //     candy_machine.data.items_by_level[i].price
+        // );
         if offsets_amount >= candy_machine.data.items_by_level[i].price {
             if candy_machine.items_redeemed_by_level[i]
                 < candy_machine.data.items_by_level[i].items_available
@@ -101,6 +101,7 @@ fn mint<'b, 'info>(offsets_amount: u64, ctx: MintAccounts<'b, 'info>) -> Program
     // Flag localnet with go_live_date = 0 ?!??
 
     if !localtest {
+
         let config_line = get_config_line(
             &config.to_account_info(),
             candy_machine.items_redeemed as usize,
@@ -114,15 +115,15 @@ fn mint<'b, 'info>(offsets_amount: u64, ctx: MintAccounts<'b, 'info>) -> Program
             &[candy_machine.bump],
         ];
 
-        let mut creators: Vec<spl_token_metadata::state::Creator> =
-            vec![spl_token_metadata::state::Creator {
+        let mut creators: Vec<metaplex_token_metadata::state::Creator> =
+            vec![metaplex_token_metadata::state::Creator {
                 address: candy_machine.key(),
                 verified: true,
                 share: 0,
             }];
 
         for c in &config.data.creators {
-            creators.push(spl_token_metadata::state::Creator {
+            creators.push(metaplex_token_metadata::state::Creator {
                 address: c.address,
                 verified: false,
                 share: c.share,
@@ -154,25 +155,34 @@ fn mint<'b, 'info>(offsets_amount: u64, ctx: MintAccounts<'b, 'info>) -> Program
             candy_machine.to_account_info().clone(),
         ];
 
+        // msg!("Calling create_metadata_accounts. ctx.payer.is_writable ? {} / {}", ctx.payer.is_writable, ctx.payer.key);
+
+        let create_metadata_instruction = create_metadata_accounts(
+            *ctx.token_metadata_program.key,
+            *ctx.metadata.key,
+            *ctx.mint.key,
+            *ctx.mint_authority.key,
+            *ctx.payer.key,
+            candy_machine.key(),
+            config_line.name,
+            config.data.symbol.clone(),
+            config_line.uri,
+            Some(creators),
+            config.data.seller_fee_basis_points,
+            false,
+            config.data.is_mutable,
+        );
+        // create_metadata_instruction.accounts.iter().for_each(|account| {
+        //     msg!("Account {}. Writable {}. Signer {}.", account.pubkey, account.is_writable, account.is_signer);
+        // });
+
         invoke_signed(
-            &create_metadata_accounts(
-                *ctx.token_metadata_program.key,
-                *ctx.metadata.key,
-                *ctx.mint.key,
-                *ctx.mint_authority.key,
-                *ctx.payer.key,
-                candy_machine.key(),
-                config_line.name,
-                config.data.symbol.clone(),
-                config_line.uri,
-                Some(creators),
-                config.data.seller_fee_basis_points,
-                false,
-                config.data.is_mutable,
-            ),
+            &create_metadata_instruction,
             metadata_infos.as_slice(),
             &[&authority_seeds],
         )?;
+
+        // msg!("Calling create_master_edition.");
 
         invoke_signed(
             &create_master_edition(
@@ -279,6 +289,7 @@ pub mod candy_machine {
             return Ok(());
         }
 
+        
         
         msg!("Create Mint account");
         invoke(
@@ -599,7 +610,7 @@ pub struct MintNFT<'info> {
     update_authority: AccountInfo<'info>,
     #[account(mut)]
     master_edition: AccountInfo<'info>,
-    #[account(address = spl_token_metadata::id())]
+    #[account(address = metaplex_token_metadata::id())]
     token_metadata_program: AccountInfo<'info>,
     #[account(address = spl_token::id())]
     token_program: AccountInfo<'info>,
@@ -642,7 +653,7 @@ pub struct MintOne<'info> {
     pub mint: AccountInfo<'info>,
     #[account(mut)]
     pub master_edition: AccountInfo<'info>,
-    #[account(address = spl_token_metadata::id())]
+    #[account(address = metaplex_token_metadata::id())]
     pub token_metadata_program: AccountInfo<'info>,
     #[account(address = spl_associated_token_account::id())]
     pub ata_program: AccountInfo<'info>,

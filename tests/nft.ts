@@ -361,4 +361,42 @@ describe("nft-multi-levels", () => {
         assert.equal(tokens.length, 5 + 10);
     });
 
+    it('Call mint_one', async () => {
+
+        const [candyMachine, bump] = await getCandyMachine(config.publicKey, candyMachineUuid, candyProgramId);
+        const mint = anchor.web3.Keypair.generate();
+        const token = await getTokenWalletAddress(buyerAccount.publicKey, mint.publicKey);
+        const metadata = await getMetadataAddress(mint.publicKey);
+        const masterEdition = await getMasterEditionAddress(mint.publicKey);
+
+        const tx = await candyProgram.rpc.mintOne(new anchor.BN(15), {
+            accounts: {
+                payer: buyerAccount.publicKey,
+                candyProgram: candyProgram.programId,
+
+                config: config.publicKey,
+                candyMachine: candyMachine,
+                mint: mint.publicKey,
+                associatedToken: token,
+                metadata: metadata,
+                masterEdition: masterEdition,
+                tokenMetadataProgram: TOKEN_METADATA_PROGRAM_ID,
+                ataProgram: ASSOCIATED_TOKEN_PROGRAM_ID,
+                tokenProgram: TOKEN_PROGRAM_ID,
+                systemProgram: SystemProgram.programId,
+                rent: anchor.web3.SYSVAR_RENT_PUBKEY,
+                clock: anchor.web3.SYSVAR_CLOCK_PUBKEY,
+            },
+            signers: [mint, buyerAccount],
+        });
+
+        machineState = await candyProgram.account.candyMachine.fetch(candyMachine);
+        assert.equal(machineState.itemsRedeemedByLevel[0].toNumber(), 2);
+        assert.equal(machineState.itemsRedeemedByLevel[1].toNumber(), 5);
+        assert.equal(machineState.itemsRedeemedByLevel[2].toNumber(), 8 + 1);
+
+        let tokens = await getOwnedTokenAccounts(provider.connection, buyerAccount.publicKey);
+        assert.equal(tokens.length, 15 + 1);
+    });
+
 });

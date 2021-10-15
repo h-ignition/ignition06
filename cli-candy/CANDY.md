@@ -14,7 +14,7 @@ ts-node cli-candy/src/cli.ts verify_token_metadata cli-candy/example-assets/  -k
 2. Upload png
 
 ```
-ts-node cli-candy/src/cli.ts verify_token_metadata cli-candy/example-assets/  -k ~/.config/solana/localnet.json -e localnet
+ts-node cli-candy/src/cli.ts upload cli-candy/example-assets/  -k ~/.config/solana/localnet.json -e localnet
 ```
 
 Now you will have a file ./.cache/localnet-temp with arweave link for each png
@@ -26,7 +26,7 @@ Now you will have a file ./.cache/localnet-temp with arweave link for each png
 ts-node cli-candy/src/cli.ts verify  -k ~/.config/solana/localnet.json -e localnet
 ```
 
-3. Create your candy machine. It can cost up to ~15 solana per 10,000 images.
+4. Create your candy machine. It can cost up to ~15 solana per 10,000 images.
 Here you set the quantity/price for each nft rarity level.
 Example: 2 nft available for 1000+ offsets, 8 nft available for 50+ offsets
 ```
@@ -34,6 +34,10 @@ ts-node cli-candy/src/cli.ts create_candy_machine cli-candy/example-assets/ -q 2
 ```
 Candy machine address is saved in ./.cache/localnet-temp
 
+5. Set start date
+```
+ts-node cli-candy/src/cli.ts update_candy_machine -d "now" -k ~/.config/solana/localnet.json -e localnet
+```
 
 
 

@@ -109,11 +109,6 @@
           "isSigner": false
         },
         {
-          "name": "payer",
-          "isMut": true,
-          "isSigner": true
-        },
-        {
           "name": "associatedToken",
           "isMut": true,
           "isSigner": false

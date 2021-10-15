@@ -8,7 +8,7 @@ import fetch from 'node-fetch';
 import log from 'loglevel';
 import { PublicKey } from '@solana/web3.js';
 
-import { fromUTF8Array, parsePrice } from './helpers/various';
+import { fromUTF8Array, parseDate, parsePrice } from './helpers/various';
 import {
   CACHE_PATH,
   CONFIG_ARRAY_START,
@@ -490,44 +490,44 @@ programCommand('create_candy_machine')
 
   });
 
-// programCommand('update_candy_machine')
-//   .option(
-//     '-d, --date <string>',
-//     'timestamp - eg "04 Dec 1995 00:12:00 GMT" or "now"',
-//   )
-//   .option('-p, --price <string>', 'SOL price')
-//   .action(async (directory, cmd) => {
-//     const { keypair, env, date, price, cacheName } = cmd.opts();
-//     const cacheContent = loadCache(cacheName, env);
+programCommand('update_candy_machine')
+  .option(
+    '-d, --date <string>',
+    'timestamp - eg "04 Dec 1995 00:12:00 GMT" or "now"',
+  )
+  .option('-p, --price <string>', 'SOL price')
+  .action(async (directory, cmd) => {
+    const { keypair, env, date, price, cacheName } = cmd.opts();
+    const cacheContent = loadCache(cacheName, env);
 
-//     const secondsSinceEpoch = date ? parseDate(date) : null;
-//     const lamports = price ? parsePrice(price) : null;
+    const secondsSinceEpoch = date ? parseDate(date) : null;
+    const lamports = price ? parsePrice(price) : null;
 
-//     const walletKeyPair = loadWalletKey(keypair);
-//     const anchorProgram = await loadCandyProgram(walletKeyPair, env);
+    const walletKeyPair = loadWalletKey(keypair);
+    const anchorProgram = await loadCandyProgram(walletKeyPair, env);
 
-//     const candyMachine = new PublicKey(cacheContent.candyMachineAddress);
-//     const tx = await anchorProgram.rpc.updateCandyMachine(
-//       lamports ? new anchor.BN(lamports) : null,
-//       secondsSinceEpoch ? new anchor.BN(secondsSinceEpoch) : null,
-//       {
-//         accounts: {
-//           candyMachine,
-//           authority: walletKeyPair.publicKey,
-//         },
-//       },
-//     );
+    const candyMachine = new PublicKey(cacheContent.candyMachineAddress);
+    const tx = await anchorProgram.rpc.updateCandyMachine(
+      lamports ? new anchor.BN(lamports) : null,
+      secondsSinceEpoch ? new anchor.BN(secondsSinceEpoch) : null,
+      {
+        accounts: {
+          candyMachine,
+          authority: walletKeyPair.publicKey,
+        },
+      },
+    );
 
-//     cacheContent.startDate = secondsSinceEpoch;
-//     saveCache(cacheName, env, cacheContent);
-//     if (date)
-//       log.info(
-//         ` - updated startDate timestamp: ${secondsSinceEpoch} (${date})`,
-//       );
-//     if (lamports)
-//       log.info(` - updated price: ${lamports} lamports (${price} SOL)`);
-//     log.info('update_candy_machine finished', tx);
-//   });
+    cacheContent.startDate = secondsSinceEpoch;
+    saveCache(cacheName, env, cacheContent);
+    if (date)
+      log.info(
+        ` - updated startDate timestamp: ${secondsSinceEpoch} (${date})`,
+      );
+    if (lamports)
+      log.info(` - updated price: ${lamports} lamports (${price} SOL)`);
+    log.info('update_candy_machine finished', tx);
+  });
 
 
 programCommand('sign')
