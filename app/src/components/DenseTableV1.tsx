@@ -252,8 +252,9 @@ console.log(candyProgram.account.candyMachine.fetch(candyMachine))
         clock: web3.SYSVAR_CLOCK_PUBKEY,
       },
       signers: [mint],
-    });
-    return tx;
+    }).then(() => {console.log("congrats")});
+    
+    console.log(tx);
   }
 
 
