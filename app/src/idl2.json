@@ -114,11 +114,6 @@
           "isSigner": true
         },
         {
-          "name": "wallet",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
           "name": "associatedToken",
           "isMut": true,
           "isSigner": false

@@ -69,7 +69,7 @@ describe("candy-test-suite", () => {
 
         await updateCandyMachine(program, candyMachine, myWallet, null, 0);
 
-        const res = await mintNft(provider, program, candyMachine, init.config.publicKey, payer, myWallet.publicKey);
+        const res = await mintNft(provider, program, candyMachine, init.config.publicKey, payer);
 
         const machine2 = await program.account.candyMachine.fetch(candyMachine);
         assert.ok(machine2.itemsRedeemedByLevel[0].eq(new anchor.BN(1)));
@@ -81,7 +81,7 @@ describe("candy-test-suite", () => {
         console.log(`NFT: ${tokens[0].publicKey}, Payer: ${payer.publicKey}, Mint: ${res.mint.publicKey}`);
 
         // mint another one
-        await mintNft(provider, program, candyMachine, init.config.publicKey, payer, myWallet.publicKey);
+        await mintNft(provider, program, candyMachine, init.config.publicKey, payer);
 
         tokens = await getOwnedTokenAccounts(provider.connection, payer.publicKey);
         assert.equal(tokens.length, 2);
@@ -113,7 +113,6 @@ describe("candy-test-suite", () => {
                 config: init.config.publicKey,
                 candyMachine: candyMachine,
                 payer: payer.publicKey,
-                wallet: myWallet.publicKey, // treasury
                 mint: mint.publicKey,
                 associatedToken: token,
                 metadata: metadata,

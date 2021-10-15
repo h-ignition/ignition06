@@ -21,11 +21,6 @@
           "isSigner": true
         },
         {
-          "name": "wallet",
-          "isMut": true,
-          "isSigner": false
-        },
-        {
           "name": "metadata",
           "isMut": true,
           "isSigner": false
@@ -129,11 +124,6 @@
           "name": "payer",
           "isMut": true,
           "isSigner": true
-        },
-        {
-          "name": "wallet",
-          "isMut": true,
-          "isSigner": false
         },
         {
           "name": "associatedToken",

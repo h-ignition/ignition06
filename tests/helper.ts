@@ -288,7 +288,7 @@ export async function getMasterEditionAddress(mint: anchor.web3.PublicKey): Prom
     return adr[0];
 };
 
-export async function mintNft(provider: anchor.Provider, program: anchor.Program, candyMachineAddress: web3.PublicKey, configAddress: web3.PublicKey, payer: web3.Keypair, myWallet: web3.PublicKey) {
+export async function mintNft(provider: anchor.Provider, program: anchor.Program, candyMachineAddress: web3.PublicKey, configAddress: web3.PublicKey, payer: web3.Keypair) {
     const mint = anchor.web3.Keypair.generate();
     const token = await getTokenWalletAddress(payer.publicKey, mint.publicKey);
     const metadata = await getMetadataAddress(mint.publicKey);
@@ -299,7 +299,6 @@ export async function mintNft(provider: anchor.Provider, program: anchor.Program
             config: configAddress,
             candyMachine: candyMachineAddress,
             payer: payer.publicKey,
-            wallet: myWallet, // treasury
             mint: mint.publicKey,
             metadata,
             masterEdition,

@@ -72,7 +72,7 @@ describe("nft-test-suite", () => {
     it('Buyer mint 1 directly', async () => {
 
         const [candyMachine, bump] = await getCandyMachine(config.publicKey, candyMachineUuid, candyProgramId);
-        const res = await mintNft(provider, candyProgram, candyMachine, config.publicKey, buyerAccount, sellerAccount.publicKey);
+        const res = await mintNft(provider, candyProgram, candyMachine, config.publicKey, buyerAccount);
 
         machineState = await candyProgram.account.candyMachine.fetch(candyMachine);
         assert.ok(machineState.itemsRedeemedByLevel[0].eq(new anchor.BN(1)));
@@ -120,7 +120,6 @@ describe("nft-test-suite", () => {
                 config: config.publicKey,
                 candyMachine: candyMachine,
                 payer: buyerAccount.publicKey,
-                wallet: sellerAccount.publicKey, // treasury
                 mint: mint.publicKey,
                 associatedToken: token,
                 metadata: metadata,
@@ -244,7 +243,6 @@ describe("nft-multi-levels", () => {
                 config: config.publicKey,
                 candyMachine: candyMachine,
                 payer: buyerAccount.publicKey,
-                wallet: sellerAccount.publicKey, // treasury
                 mint: mint.publicKey,
                 associatedToken: token,
                 metadata: metadata,

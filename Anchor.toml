@@ -10,8 +10,8 @@ candy_machine = "CANHaiDd6HPK3ykgunmXFNZMrZ4KbZgEidY5US2L8CTw"
 url = "https://anchor.projectserum.com"
 
 [provider]
-cluster = "devnet"
-wallet = "/home/nuhutuh25/.config/solana/devnet.json"
+cluster = "localnet"
+wallet = "~/.config/solana/devnet.json"
 
 [scripts]
-test = "mocha -t 1000000 tests/*.ts --timeout 300000"
+test = "mocha --require ts-node/register ./tests/*.ts --timeout 300000"

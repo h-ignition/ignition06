@@ -31,7 +31,6 @@ pub struct MintAccounts<'b, 'info> {
     pub candy_machine: &'b mut ProgramAccount<'info, CandyMachine>,
     pub config: &'b ProgramAccount<'info, Config>,
     pub payer: &'b AccountInfo<'info>,
-    pub wallet: &'b AccountInfo<'info>,
     pub metadata: &'b AccountInfo<'info>,
     pub mint: &'b AccountInfo<'info>,
     pub mint_authority: &'b AccountInfo<'info>,
@@ -230,7 +229,6 @@ pub mod candy_machine {
             candy_machine: &mut ctx.accounts.candy_machine,
             config: &ctx.accounts.config,
             payer: &ctx.accounts.payer,
-            wallet: &ctx.accounts.wallet,
             metadata: &ctx.accounts.metadata,
             mint: &ctx.accounts.mint,
             mint_authority: &ctx.accounts.mint_authority,
@@ -349,7 +347,6 @@ pub mod candy_machine {
             candy_machine: &mut ctx.accounts.candy_machine,
             config: &ctx.accounts.config,
             payer: &ctx.accounts.payer,
-            wallet: &ctx.accounts.wallet,
             metadata: &ctx.accounts.metadata,
             mint: &ctx.accounts.mint,
             mint_authority: &ctx.accounts.payer,
@@ -584,15 +581,12 @@ pub struct MintNFT<'info> {
     #[account(
         mut,
         has_one = config,
-        has_one = wallet,
         seeds = [PREFIX.as_bytes(), config.key().as_ref(), candy_machine.data.uuid.as_bytes()],
         bump = candy_machine.bump,
     )]
     candy_machine: ProgramAccount<'info, CandyMachine>,
     #[account(mut, signer)]
     payer: AccountInfo<'info>,
-    #[account(mut)]
-    wallet: AccountInfo<'info>,
     // With the following accounts we aren't using anchor macros because they are CPI'd
     // through to token-metadata which will do all the validations we need on them.
     #[account(mut)]
@@ -634,15 +628,12 @@ pub struct MintOne<'info> {
     #[account(
         mut,
         has_one = config,
-        has_one = wallet,
         seeds = [PREFIX.as_bytes(), config.key().as_ref(), candy_machine.data.uuid.as_bytes()],
         bump = candy_machine.bump,
     )]
     pub candy_machine: ProgramAccount<'info, CandyMachine>,
     #[account(mut, signer)]
     pub payer: AccountInfo<'info>,
-    #[account(mut)]
-    pub wallet: AccountInfo<'info>,
     #[account(mut)]
     pub associated_token: AccountInfo<'info>,
     #[account(mut)]

@@ -101,7 +101,6 @@ pub mod harmonia {
             candy_machine: ProgramAccount::try_from(cpi_program.key, &ctx.accounts.candy_machine)
                 .unwrap(),
             payer: ctx.accounts.payer.clone(),
-            wallet: ctx.accounts.wallet.clone(),
             associated_token: ctx.accounts.associated_token.clone(),
             metadata: ctx.accounts.metadata.clone(),
             mint: ctx.accounts.mint.clone(),
@@ -158,8 +157,6 @@ pub struct BuyAndMintNFT<'info> {
     candy_machine: AccountInfo<'info>,
     #[account(mut, signer)]
     payer: AccountInfo<'info>,
-    #[account(mut)]
-    wallet: AccountInfo<'info>,
     #[account(mut)]
     associated_token: AccountInfo<'info>,
     #[account(mut)]
