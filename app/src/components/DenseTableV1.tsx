@@ -75,8 +75,8 @@ export default function DenseTable() {
       owner: "p.account.authority.toString()",
     },
   ])
-  const sellerAccount = new web3.PublicKey("9wR6MPaeMZyKGn6f53knRAVHrnogAb3mf6cJ8CLmi6Uu")
-const projectAccount = new web3.PublicKey("6qthogdMfaYtdeLrfaCfFtYQAiouRoPpaWsgS7nDoNkH")
+  const sellerAccount = new web3.PublicKey("E62W9WK5XR6VM9HYMxYyS6gkLLmBiNeBbsFjvBVfY766")
+const projectAccount = new web3.PublicKey("C4WKtnm7mrvftQ748Nm1k8DMV5BPq1EF2Bd1RgZwVTMb")
 
     const candyMachineUuid = "GMxBmP"
     const mint = web3.Keypair.generate()
@@ -89,36 +89,40 @@ const projectAccount = new web3.PublicKey("6qthogdMfaYtdeLrfaCfFtYQAiouRoPpaWsgS
 
 
 
-
-
-  React.useEffect(() => {
-    async function getAllProjects() {
+async function getAllProjects() {
       const provider = await getProvider();
       //@ts-ignore
       const program = new Program(idl2, programID, provider);
-      return await program.account.project.all();
-    }
-    // Create an scoped async function in the hook
-    getAllProjects().then((projects) => {
-      //@ts-ignore
-      let pl = [];
-      projects.forEach((p) => {
-        // p.publicKey
-        // p.account
-        pl.push({
-          name: p.account.name,
-          number: p.account.availableOffset.toString(),
-          price: p.account.offsetPrice.toString(),
-          address: p.publicKey.toString(),
-          owner: p.account.authority.toString(),
+      let projects= await program.account.project.all();
+    
+      
+        //@ts-ignore
+        let pl = [];
+        projects.forEach((p:any) => {
+          // p.publicKey
+          // p.account
+          pl.push({
+            name: p.account.name,
+            number: p.account.availableOffset.toString(),
+            price: p.account.offsetPrice.toString(),
+            address: p.publicKey.toString(),
+            owner: p.account.authority.toString(),
+          });
+          console.log(p.account.availableOffset.toString());
+          console.log(p.account.authority.toString());
+          console.log(p.publicKey.toString());
         });
-        console.log(p.account.availableOffset.toString());
-        console.log(p.account.authority.toString());
-        console.log(p.publicKey.toString());
-      });
-      //@ts-ignore
-      setProjectList(pl);
-    });
+        //@ts-ignore
+        setProjectList(pl);
+      
+    }
+    
+    
+  
+  React.useEffect(() => {
+    
+    getAllProjects()
+  
   }, []);
   
 
@@ -371,16 +375,7 @@ console.log("wallet ok")
           </Table>
         </TableContainer>
         <div>
-          {!value && (
-            <button
-              onClick={() => {
-                setValue("connected");
-              }}
-            >
-              Initialize
-            </button>
-          )}
-          {value ? (
+          
             <div>
               <h2>{value}</h2>
               <input
@@ -402,9 +397,7 @@ console.log("wallet ok")
                 Create New Project
               </button>
             </div>
-          ) : (
-            <h3>Click here to Initialize</h3>
-          )}
+          
         </div>
       </div>
     );
