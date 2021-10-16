@@ -1,0 +1,23 @@
+{
+  "name": "1",
+  "symbol": "",
+  "image": "image.png",
+  "properties": {
+    "files": [{ "uri": "image.png", "type": "image/png" }],
+    "category": "image",
+    "creators": [
+      {
+        "address": "9wR6MPaeMZyKGn6f53knRAVHrnogAb3mf6cJ8CLmi6Uu",
+        "share": 100
+      }
+    ]
+  },
+  "description": "",
+  "seller_fee_basis_points": 500,
+  "attributes": [
+    { "trait_type": "base", "value": "quartz" },
+    { "trait_type": "bonus", "value": "beach" },
+    { "trait_type": "bonus", "value": "big" }
+  ],
+  "collection": "1 - The Hackaton"
+}

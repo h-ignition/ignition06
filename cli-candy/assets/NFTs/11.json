@@ -1,0 +1,22 @@
+{
+  "name": "11",
+  "symbol": "",
+  "image": "image.png",
+  "properties": {
+    "files": [{ "uri": "image.png", "type": "image/png" }],
+    "category": "image",
+    "creators": [
+      {
+        "address": "9wR6MPaeMZyKGn6f53knRAVHrnogAb3mf6cJ8CLmi6Uu",
+        "share": 100
+      }
+    ]
+  },
+  "description": "",
+  "seller_fee_basis_points": 500,
+  "attributes": [
+    { "trait_type": "base", "value": "octopus" },
+    { "trait_type": "bonus", "value": "fish" }
+  ],
+  "collection": "1 - The Hackaton"
+}

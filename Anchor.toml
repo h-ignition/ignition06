@@ -1,12 +1,17 @@
 [programs.localnet]
-ignition06 = "8WhbWR7MQgjtPExCFFoE4QF3321RRkE7tiFy6c9dUDHM"
+harmonia="HARm9wjX7iJ1eqQCckXdd1imRFXE6PsVChVdV4PbfLc"
+candy_machine = "CANHaiDd6HPK3ykgunmXFNZMrZ4KbZgEidY5US2L8CTw"
+
+[programs.devnet]
+harmonia="HARm9wjX7iJ1eqQCckXdd1imRFXE6PsVChVdV4PbfLc"
+candy_machine = "CANHaiDd6HPK3ykgunmXFNZMrZ4KbZgEidY5US2L8CTw"
 
 [registry]
 url = "https://anchor.projectserum.com"
 
 [provider]
 cluster = "localnet"
-wallet = "/home/nuhutuh25/.config/solana/id.json"
+wallet = "~/.config/solana/devnet.json"
 
 [scripts]
-test = "mocha -t 1000000 tests/"
+test = "mocha --require ts-node/register ./tests/*.ts --timeout 300000"

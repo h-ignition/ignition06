@@ -1,0 +1,26 @@
+HLzNPGRFKGDxqRdD9mrrBELQf7sRVFq5CWXD2YJWwKuc
+wallet public key: 9JHJomPyKtfFqCtxrtu6hp6G7X4PNQiwqNwabYtRK2g
+
+program id from anchor CANHaiDd6HPK3ykgunmXFNZMrZ4KbZgEidY5US2L8CTw
+
+cm pub key 4MbowVsUaMy2PaLX2kbcWX8KCDG5zmgC4psXXyPjbhq5
+candy machine with publickey: 85YFG7tXGm5bQPhq2tKmMCxizU1adehE8ztrPBakf691
+candy machine pubkey: 5Yv8XmkjhkRpANtfKpcQTzzzDCjoxrQD8MHJLULrBZQx
+
+ts-node cli-candy/src/cli.ts upload cli-candy/assets/NFTs/ -k ~/.config/solana/localnet.json -e localnet
+ts-node cli-candy/src/cli.ts create_candy_machine cli-candy/assets/NFTs -q 8,10,10,10 -p 1000,100,10,1 -k ~/.config/solana/devnet.json -e devnet 
+
+
+nuhutuh25@nuhutuh25-Inspiron-5502:~/Desktop/ignition-v0.7$ solana address -k ~/.config/solana/sam.json
+6SfminYhrEfdPUdHUBWBPDrePRP4SLkjpsas3TwpQUuf
+nuhutuh25@nuhutuh25-Inspiron-5502:~/Desktop/ignition-v0.7$ solana address -k ~/.config/solana/harmonia-eko.json 
+5sjGz2La5F7kUPkdBFqt3cRL3XhcbwdWoUnVD8WLyUp7
+nuhutuh25@nuhutuh25-Inspiron-5502:~/Desktop/ignition-v0.7$ solana address -k ~/.config/solana/cm.json 
+34piVPoKzyCSG9fWGCBgz1PTZHpSycfRCMbKiwjJ6Kpz
+nuhutuh25@nuhutuh25-Inspiron-5502:~/Desktop/ignition-v0.7$ solana address -k ~/.config/solana/devnet.json
+HLzNPGRFKGDxqRdD9mrrBELQf7sRVFq5CWXD2YJWwKuc
+nuhutuh25@nuhutuh25-Inspiron-5502:~/Desktop/ignition-v0.7$ solana address -k ~/.config/solana/id.json 
+9JHJomPyKtfFqCtxrtu6hp6G7X4PNQiwqNwabYtRK2g
+nuhutuh25@nuhutuh25-Inspiron-5502:~/Desktop/ignition-v0.7$ 
+
+Maybe the authority problem comes from the Anchor.toml file wher I did not put the program.devnet and program.localnet
