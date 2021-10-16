@@ -110,13 +110,12 @@ export default function DenseTable() {
     getAllProjects();
   }, []);
 
-  //@ts-ignore
-  async function update(name, number, price) {
+  async function create(name, number, price) {
     if (!name) return;
     const provider = await getProvider();
-    //@ts-ignore
+
     const projectAccount = web3.Keypair.generate();
-    //@ts-ignore
+
     const program = new Program(idl2, programID, provider);
     const tx = await program.rpc.create(
       new BN(number),
@@ -134,27 +133,7 @@ export default function DenseTable() {
         signers: [projectAccount],
       }
     );
-  }
-
-  async function buy(amount) {
-    const provider = await getProvider();
-    //@ts-ignore
-    const program = new Program(idl2, programID, provider);
-
-    await program.rpc.buy(new BN(amount), {
-      accounts: {
-        project: projectList[4].address,
-        buyer: provider.wallet.publicKey,
-        seller: projectList[4].owner,
-        systemProgram: web3.SystemProgram.programId,
-      },
-
-      signers: [],
-    });
-    var q = (amount * 3) / 100 + 1;
-    alert(
-      `thanks for your purchase, an nft lvl ${q} will be added to your Solana wallet`
-    );
+    getAllProjects();
   }
 
   async function buyAndMint(offsets) {
@@ -208,49 +187,6 @@ export default function DenseTable() {
     });
 
     return tx;
-  }
-
-  async function mint1() {
-    const provider = await getProvider();
-    //@ts-ignore
-    const harmoniaProgram = new Program(idl2, programID, provider);
-    //@ts-ignore
-    const candyProgram = new Program(idl, programID2, provider);
-    const candyProgramId = candyProgram.programId;
-    //@ts-ignore
-    const buyerAccount = provider.wallet;
-
-    //@ts-ignore
-    console.log(`Connecting to ${provider.connection["_rpcEndpoint"]}`);
-    const [candyMachine, bump] = await getCandyMachine(
-      config,
-      candyMachineUuid,
-      candyProgramId
-    );
-
-    ///before mint:
-    await ensureBalance(provider, provider.wallet.publicKey, 2);
-    console.log("wallet ok");
-    await ensureBalance(provider, sellerAccount, 2);
-    console.log("seller ok");
-    await ensureBalance(provider, buyerAccount.publicKey, 2);
-    console.log("buyer ok");
-    ///
-
-    const res = await mintNft(
-      provider,
-      candyProgram,
-      candyMachine,
-      config,
-      buyerAccount,
-      sellerAccount
-    );
-
-    let machineState = await candyProgram.account.candyMachine.fetch(
-      candyMachine
-    );
-    //@ts-ignore
-    console.log(machineState.itemsRedeemedByLevel[0] == new BN(1));
   }
 
   if (!wallet.connected) {
@@ -328,7 +264,7 @@ export default function DenseTable() {
               //@ts-ignore
               onChange={(e) => setPrice(e.target.value)}
             />
-            <button onClick={() => update(name, number, price)}>
+            <button onClick={() => create(name, number, price)}>
               Create New Project
             </button>
           </div>
